@@ -232,6 +232,10 @@ git add . # 英文小点 对所有文件添加
 
 ```bash
 git commit -m "日志信息"
+
+# 修改提交后的 commit message
+
+git commit --amend
 ```
 
 ###  9.  远程仓库的拉取
@@ -399,6 +403,19 @@ git reset HEAD path/fileName
 ```
 
 ###  17. 回到指定版本
+
+```bash
+后续补充命令: git cat-file -t commit-ID 
+
+参数：
+    -t 查看类型
+    -p 查看内容
+    
+图形化界面打开:
+	 gitk --all
+```
+
+
 
 ```bash
 1. 实现方法一
@@ -692,6 +709,25 @@ git checkout -b branch-name remots/远端别名/branch-name
   git add .
   git commit -m 'update .gitignore'
   ```
+
+###  27. 分离头指针
+
+```bash
+不建议的操作
+	
+	git checkout commit-ID
+	git commit -am"commit log" # 不经过暂存区
+	git log (查看 HEAD 时发现无指向)
+	gitk --all(图形化界面查看)
+```
+
++ 分离头指针（我的理解暂时有点抽象）
+
+  ```bash
+  分离头指针内容如果无用会被清理
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103143654.png">
 
 ##  总结:
 

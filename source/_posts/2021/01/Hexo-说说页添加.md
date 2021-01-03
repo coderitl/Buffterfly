@@ -173,8 +173,8 @@ serverurl 即可
   <div id="artitalk_main"></div>
   <script>
   new Artitalk({
-      appId: 'mBJmPXWzwyV04mxhgYDlcesh-MdYXbMMI', // Your LeanCloud appId
-      appKey: 'YmiNUWFhvvnoxmwyOo4iAEUy' // Your LeanCloud appKey
+      appId: '', // Your LeanCloud appId
+      appKey: '' // Your LeanCloud appKey
   })
   </script>
   {% endraw %}
