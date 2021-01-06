@@ -8,6 +8,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/python.jpg
 ---
 
 ###  新建 `github` 仓库
+<!-- more -->
 
 
 

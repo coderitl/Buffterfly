@@ -8,6 +8,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/Java.jpg
 ---
 
 ### Java 变量:
+<!-- more -->
 
 ```java
 class TypeodData {

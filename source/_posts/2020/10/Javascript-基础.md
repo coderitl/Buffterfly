@@ -9,6 +9,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/JavaScript.jpg
 ---
 
 ### 基础:
+<!-- more -->
 
 ```javascript
 var

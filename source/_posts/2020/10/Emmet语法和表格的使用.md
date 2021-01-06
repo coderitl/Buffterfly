@@ -13,6 +13,7 @@ cover:
 ### `Emmet` 语法使用:
 
 + `vscode`快速生成 `html5`代码模板
+<!-- more -->
 
   ```html
   ! 感叹号

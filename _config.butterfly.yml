@@ -147,6 +147,25 @@ cover:
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/21.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/22.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/23.jpg
+clear
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-1.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-2.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-3.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-4.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-5.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-6.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-7.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-8.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-9.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-10.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-11.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-12.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-13.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-14.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-15.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-16.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-17.jpg
+    - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-18.jpg
 
 # Replace Broken Images (替換無法顯示的圖片)
 error_img:
@@ -186,8 +205,8 @@ wordcount:
 # 3: auto_excerpt (default)
 # false: do not show the article introduction
 index_post_content:
-  method: 3
-  length: 500 # if you set method to 2 or 3, the length need to config
+  method: 2
+  length: 150 # if you set method to 2 or 3, the length need to config
 
 # Post
 # --------------------------------------
@@ -316,7 +335,7 @@ valine:
   appKey: YmiNUWFhvvnoxmwyOo4iAEUy # leancloud application app key
   pageSize: 10 # comment list page size
   avatar: monsterid # gravatar style https://valine.js.org/#/avatar
-  lang: en # i18n: zh-CN/zh-TW/en/ja
+  lang: zh-CN # i18n: zh-CN/zh-TW/en/ja
   placeholder: Please leave your footprints # valine comment input placeholder (like: Please leave your footprints)
   guest_info: nick,mail,link # valine comment header info (nick/mail/link)
   recordIP: false # Record reviewer IP
@@ -408,9 +427,9 @@ footer:
   owner:
     enable: true
     since: 2020
-  custom_text:
+  custom_text: <p><img src="https://img.shields.io/badge/Frame-Hexo-orange">&nbsp;<img src="https://img.shields.io/badge/Theme-Buffterfly-blue">&nbsp;<img src="https://img.shields.io/badge/CDN-jsDeliver-blueviolet">&nbsp;<img src="https://img.shields.io/badge/Source-Github-9cf">&nbsp;<img src="https://img.shields.io/badge/Theme-Matery-ff69b4">&nbsp;<img src="https://img.shields.io/badge/Python-Python-success">&nbsp;<img src="https://img.shields.io/badge/Python-Flask-red"></p><p><img src="https://img.shields.io/badge/Theme-Butterfly-red?logo=Castorama&logoWidth=18">&nbsp;<img src="https://img.shields.io/badge/Frame-Hexo-blue?logo=Grunt&logoWidth=18"></p>
   copyright: true # Copyright of theme and framework
-
+# 
 # Analysis
 # --------------------------------------
 
@@ -654,11 +673,11 @@ aside:
     button:
       enable: true
       icon: fab fa-github
-      text: Follow Me
-      link: https://github.com/xxxxxx
+      text: 源于此
+      link: https://github.com/lovobin
   card_announcement:
     enable: true
-    content: This is my Blog
+    content: <p><a href="http://wang_hong_bin.gitee.io/hexoblog/"><img src="https://img.shields.io/badge/Theme-Matery-red"></a></p> <p><a href="http://aidou.3vfree.com/"><img src="https://img.shields.io/badge/Gitee-Gitee--Matery-red"></a></p>
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
@@ -876,18 +895,22 @@ css_prefix: true
 inject:
   head:
     - <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"> #动画标签anima的依赖
-    - <link rel="stylesheet" href="/gitcalendar/css/gitcalendar.css"/>
-    - <link rel="stylesheet" href="/swiper/swiper.min.css">
-    - <link rel="stylesheet" href="/swiper/swiperstyle.css">
+    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.12/css/gitcalendar.css" media="defer" onload="this.media='all'" />
+    - <link rel="stylesheet" href="/swiper/swiper.min.css" media="defer" onload="this.media='all'">
+    - <link rel="stylesheet" href="/swiper/swiperstyle.css" media="defer" onload="this.media='all'">
+    - <link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'">
+    - <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/animate-css/animate.css@3.7.2/animate.min.css">
   bottom:
-    - <script defer src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+    - <script  src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
     # 自butterfly_v3.4.0+开始，主题基本实现去jquery化，需要自己添加引用，请读者根据版本自行决定是否添加这行引用。
     - <script defer src="https://cdn.jsdelivr.net/npm/hexo-theme-volantis@latest/source/js/issues.min.js"></script>
     #数据集合标签issues的依赖
     - <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-    - <script defer src="/gitcalendar/js/gitcalendar.js"></script>
-    - <script src="/swiper/swiper.min.js"></script>
-    - <script defer src="/swiper/swiperindex.js"></script>
+    #  /gitcalendar/js/gitcalendar.js
+    - <script  data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.12/js/gitcalendar.js"></script>
+    - <script data-pjax src="/swiper/swiper.min.js"></script>
+    - <script data-pjax  src="/swiper/swiperindex.js"></script>
+    - <script src="https://cdn.jsdelivr.net/gh/graingert/wow@1.3.0/dist/wow.min.js"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work

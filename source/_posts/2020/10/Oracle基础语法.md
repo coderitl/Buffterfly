@@ -8,6 +8,8 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/oracle.jpg
 ---
 
 #### Oracle 11g :
+<!-- more -->
+
 <font color='red'>注：此笔记为个人在学习Oracle时从教学视频、练习整理</font>
 >  <font color='red'>安装问题: </font>
 >  + 在安装完成后如果遇到口令管理无法出现那么就需要手动配置数据库

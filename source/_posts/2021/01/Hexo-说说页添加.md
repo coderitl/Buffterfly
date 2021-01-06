@@ -3,15 +3,15 @@ title: Hexo 说说页添加
 date: 2021-01-01 16:19:12
 tags: 
 - Hexo
-- Buffterfly
-categories: Buffterfly
+- Butterfly
+categories: Butterfly
 ---
 
 
 
 ###  主题升级
 
-+ `Buffterfly` 主题更新了
++ `Butterfly` 主题更新了
 
 + 升级步骤
 

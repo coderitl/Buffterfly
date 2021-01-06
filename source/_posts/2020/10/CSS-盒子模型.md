@@ -9,6 +9,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/boxS.png
 ---
 
 ###  盒子模型:
+<!-- more -->
 
 ```html
 width

@@ -12,6 +12,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/QQ截图20201024
 + 登录注册 `码云`
 
   ![注册账号](https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/QQ截图20201024150508.png)
+<!-- more -->
 
 + 创建仓库
 

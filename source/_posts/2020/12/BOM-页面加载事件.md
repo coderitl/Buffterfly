@@ -17,7 +17,7 @@ cover:
 
 
 ###  BOM-页面加载事件
-
+<!-- more -->
 ```javascript
 1. load 等页面内容全部加载完毕,包含页面 dom 元素 图片 flash css 等
 

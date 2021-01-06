@@ -11,6 +11,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/picPhoto.png
 ---
 
 ### 根目录下的`source/`添加静态资源文件夹：
+<!-- more -->
 
 + 添加不被渲染的主文件夹
 + 在主文件夹下添加子文件夹 / ( `idnex.html,css,js`)

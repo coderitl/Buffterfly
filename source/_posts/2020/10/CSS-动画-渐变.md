@@ -9,6 +9,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/ann.jpg
 ---
 
 ###  `CSS 动画`   - `animation`：
+<!-- more -->
 
 > ``animation`` `属性用来指定一组或多组动画，每组之间用逗号相隔。`
 

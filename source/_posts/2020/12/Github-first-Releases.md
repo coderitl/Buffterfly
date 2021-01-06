@@ -32,3 +32,4 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/gitTree.png
    <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/infos.png">
 
 7.  点击 `Publish release` 实现版本发布
+8. 作为初学者眼中的版本控制(初学时的想法,等待更新····)

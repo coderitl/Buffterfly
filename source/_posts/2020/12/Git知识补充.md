@@ -234,9 +234,37 @@ git add . # 英文小点 对所有文件添加
 git commit -m "日志信息"
 
 # 修改提交后的 commit message
-
-git commit --amend
+  +  修改最新的 commit 
+	git commit --amend
+	
+ + 老旧的 commit 进行修改
+ 	
+ 	git rebase -i 目标-commit-ID
+ 
+ 	注意为交互式: 选择一种 例如: r
 ```
+
++ `git commit --amend` 修改最近一次的 `commit-message`
+
+​	<img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103145414.png">
+
++ 老旧的`message` 修改
+
+  ```bash
+  git rebase -i commit-ID (找父级)
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103145929.png" title="为能正确使用该命令 有待补充">
+
+  + 应该显示如下信息
+
+    ```bash
+    注意: 涉及基点，选择适合的策略修改
+    
+    须知: 多个或者间隔的 commit  可以合并
+    ```
+
+    <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103151300.png">
 
 ###  9.  远程仓库的拉取
 
@@ -421,10 +449,15 @@ git reset HEAD path/fileName
 1. 实现方法一
 	git reset --hard HEAD^ # 一个尖角号代表一个版本
 2. 实现方法二
-	git log
+	git log(补充: git log -n(数值 查看多少范围内的提交))
 	# 可以取前几位或者全部id
 	# Eg. git reset --hard HEAD 11fa
-	git reset --hard HEAD commit-ID 
+	
+	git reset --hard HEAD commit-ID （疑问）
+	
+	git reset --hard commit-id (回退到某一版本 暂存区和工作区一致 慎重)
+	
+	# git reset  HEAD 直接恢复暂存区的所有文件
 ```
 
 <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/commitID.png" title="commit id 每提交一次都会产生一个 commit-id">
@@ -728,6 +761,53 @@ git checkout -b branch-name remots/远端别名/branch-name
   ```
 
   <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103143654.png">
+
+###   28. 暂存区和HEAD  包含文件比较
+
+```bash
+# 比较命令
+
+git diff --cached 
+```
+
+###  29.  工作区和暂存区进行差异比较
+
+```bash
+git diff
+
+# 指定文件比较差异
+git diff -- file-name
+```
+
+###   30.  分支与分支之间内容差异比较
+
+```bash
+# 所有内容比较
+git diff branch-name1 branch-name2
+
+# 两条分支中具体文件比较差异
+git diff  branch-name1 branch-name2  -- file-name(commit-id 比较等同)
+
+```
+
+###  31.  开发中临时加塞紧急任务处理方案
+
+```bash
++ 将当前任务放在一个隔离环境
+	git stash
+	
++ 去处理BUG
+
++ 完成 BUG 回到 stash 的任务
+	两种:
+		1.  git stash apply
+			git stash list 
+		2. git stash pop
+```
+
+
+
+
 
 ##  总结:
 

@@ -13,6 +13,9 @@ wrong_pass_message: Sorry, this password doesn't look right, please try again.
 wrong_hash_message: Sorry, this article cannot be verified, but you can still see the decrypted content
 ---
 
+###  简历:
+<!-- more -->
+
  王宏斌简历： <a href="https://www.qmjianli.com/cv/201014KBYIX4RBJPL">王宏斌   简历 </a>
 
 浏览密码: <a href="javascript:void(0)">锁定暂时无法查看</a>

@@ -7,6 +7,18 @@ top_img: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/hellowWorld.pn
 
 {% timeline Hexo日志 %}
 
+{% timenode 2021-01-05 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
+
+
+
+1. 更新页脚`footer`,添加如下信息: <a href="https://shields.io/"><img src="https://img.shields.io/badge/Log-Hexo--Log-red" title="点击跳转制作···"></a>
+
+2. 使用方法: {% hideBlock 点击查看使用教程 %} <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210105182247.png" title="下拉可以选择有图案的标签添加"> 
+
+{% endhideBlock %}
+
+{% endtimenode %}
+
 {% timenode 2021-01-02 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
 
 1. 日志丢失,补充日志
@@ -31,3 +43,8 @@ top_img: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/hellowWorld.pn
 {% endtimenode %}
 
 {% endtimeline %}
+
+
+
+
+

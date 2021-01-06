@@ -8,6 +8,8 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/mybatis.jpg
 ---
 
 ### User类(只需要写数据库中对应的字段名，通过IDEA 快捷键 `Alt + ins`) 快速实现 `setxxx`方法 和 `toString()`:
+<!-- more -->
+
 ```java
 package com.ltd.aiodu;
 
