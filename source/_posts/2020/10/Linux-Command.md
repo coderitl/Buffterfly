@@ -328,13 +328,266 @@ $ 普通用户提示符
   	reboot
   ```
 
-+ 常用其他命令
+###  配置`VIM`编辑器
+
+```bash
+# 配置 vim
+
+# 创建文件
+touch .vimrc
+# 写入一下配置信息
+vim .vimrc
+
+    set nu # 显示行号
+    syntax on # 高亮显示
+    set ts=4 # 制表位
+    set expandtab # 自动转换 tab
+    set ruler # 显示光标
+    set nohls # 关闭搜索高亮
+```
+
+###  末行模式
+
++ 显示关闭行号(`按下Esc后执行`)
 
   ```bash
+  # --------------- S: Esc ---------------------
+  
+  set nonu # 关闭行号
+  set nu # 显示行号
   
   ```
 
++ 制表键位数设置
+
+  ```bash
+  set ts=4
+  ```
+
++ `vim`下代码高亮显示
+
+  ```bash
+  syntax on # 开启
+  syntax off # 关闭
+  ```
+
++ 光标所在位置
+
+  ```bash
+  set ruler # 显示光标所在位置
   
+  set noruler # 关闭光标显示
+  
+  # --------------- E: Esc ---------------------
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/ruler.png">
+
++ 命令模式
+
+  + 移动光标
+
+    ```bash
+    G # 光标移到文件末尾
+    200G # 光标移动到第 200行
+    gg # 光标移动到行首
+    
+    h 左
+    j 下
+    k 上
+    l 右
+     
+     ctrl + y / ctrl + e 移动一行
+     ctrl + f / ctrl + b 翻一页
+     
+     0 光标移动到行首
+     $ 光标移动到行尾
+     w 光标移动到下一个单词
+    ```
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/LinuxD.png" title="慕课网截图">
+
+  + 删除
+
+    ```bash
+    dd # 删除光标所在行
+    100dd 从光标所在删除 100 行
+    ```
+
+  + 复制
+
+    ```bash
+    yy # 复制光标所在行
+    
+    10yy # 光标所在行开始复制 10 行
+    
+    p # 粘贴
+    10p # 粘贴 10 遍
+    
+    ```
+
+  + 撤销恢复
+
+    ```bash
+    u # 撤销
+    ctrl + r # 恢复
+    ```
+
+  + 映射快捷键
+
+    ```bash
+    map <F2> gg99999dd # 回到行首 删除 9999行
+    
+    inoremap _main if __name__ == '__main__' 
+    ```
+
+  + 多文件操作
+
+    ```bash
+    :ls # 查看当前打开的所有文件（类似于windows的 windows + Tab,在linux只显示文件名称）
+    :b 数字 # 显示指定文件
+    ```
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/lsAllfile.png">
+
+  + 窗口显示(分屏)
+
+    + 水平拆分
+
+      ```bash
+      sp
+      
+      # 切换窗口
+      ctrl + ww
+      ```
+
+    + 垂直拆分
+
+      ```bash
+      vs # 垂直拆分窗口
+      ```
+
+    + 退出窗口
+
+      ```bash
+      qa # 水平拆分垂直窗口
+      
+      wqa # 保存并退出所有窗口
+      ```
+
+  + 中断恢复
+
+    + `shift + r`
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/recover.png">
+
+    + 删除隐藏文件
+
+      ```bash
+      # 显示隐藏文件 
+      ls -a
+      
+      rm -y 上一次中断的执行文件.后缀名.swp
+      
+      ```
+
++ 命令别名
+
+  ```bash
+  # 别名: 简化输入
+  alias 别名 = '命令'
+  
+  # alias nl='ls -laR' # 递归显示,
+  ```
+
++ 查找替换
+
+  ```bash
+  # 全文替换
+  :1,$s/替换目标/替换为/ci # c确认 i 忽略大小写
+  
+  # 前 n 替换
+  :1,10s/替换目标/替换为/ci # c确认 i 忽略大小写 
+  
+  # 一行有多个需要替换就需要添加 g 参数
+  :1,10s/替换目标/替换为/cg # c确认 g 全局 global
+  
+  # 直接替换
+  :1,$s/替换目标/替换为
+  
+# 查找
+  ? 或 /
+  ```
+
++ 快捷键
+
+  ```bash
+  shift + v | V # 选中光标所在行
+  
+  shift + g | G # 向下选择
+  ```
+
++ `vim`主题
+
+  ```bash
+  # 末行模式下
+  
+  :colorscheme (空格一下，按下 ctrl + d)
+  
+  # 显示可选主题
+      blue       default    desert     evening    koehler    murphy     peachpuff  shine      torte
+      darkblue   delek      elflord    industry   morning    pablo      ron        slate      zellner
+  
+  # 可以从网络下载主题
+  
+  https://github.com/flazz/vim-colorschemes
+  
+  # 可写入 .vimrc 文件永久配置 存入 git 进行版本控制, 以后方便使用
+  
+  # 开源: https://github.com/liuchengxu/space-vim (以后配置)
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/autoindent.png" title="python 文件未能实现自动换行">
+
++ `Vim`插件配置
+
+  ```bash
+  # https://github.com/sbdchd/neoformat vim 代码格式化插件
+  ```
+
+  
+
+###  宏：
+
++ 录制宏
+
+  ```bash
+  末行模式: q其他字母
+  ```
+
++ `python`注释宏录制
+
+  + `vim`文件
+
+  + 按下`q`，在键入其他字母`Eg. a 寄存器名称`
+
+  + 按下`i`
+
+  + 添加注释 `#`
+
+  + 按下`ESC`，按下`j`进入下一行
+
+  + 按下`q`结束宏
+
+    
+
+  + 播放宏
+
+    + 数字 `@a`
+
+  + 演示
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/hong.gif">
 
 ### 挂载:
 
@@ -422,8 +675,6 @@ mount # 显示
 
 touch /etc/nologin
 ```
-
-
 
 ### 进阶：
 

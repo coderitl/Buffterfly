@@ -7,6 +7,17 @@ top_img: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/hellowWorld.pn
 
 {% timeline Hexo日志 %}
 
+{% timenode 2021-01-14 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
+
+1. `Python`基础完结
+2. `Linux` 内容补充
+3.  `Linux`安装`Python.7.3`
+4.  `Linux`学会宏录制
+
+{% endtimenode %}
+
+
+
 {% timenode 2021-01-05 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
 
 

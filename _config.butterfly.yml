@@ -11,9 +11,6 @@ menu:
   归档: /archives/ || fas fa-archive
   标签: /tags/ || fas fa-tags
   分类: /categories/ || fas fa-folder-open
-  点点滴滴 ||fas fa-list:
-    - 音乐 || /music/ || fas fa-music
-    - 视频 || /movies/ || fas fa-video
   日志: /Timeline/ || fab fa-docker
   说说: /shuoshuo/ || fab fa-d-and-d
   友情链接: /link/ || fas fa-link
@@ -147,7 +144,6 @@ cover:
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/21.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/22.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/Access@v1.0/medias/featureimages/23.jpg
-clear
     - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-1.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-2.jpg
     - https://cdn.jsdelivr.net/gh/lovobin/hiddenContent@v1.0.4/re-3.jpg
