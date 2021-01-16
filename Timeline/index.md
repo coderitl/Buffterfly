@@ -7,6 +7,17 @@ top_img: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/hellowWorld.pn
 
 {% timeline Hexo日志 %}
 
+{% timenode 2021-01-16 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
+
+1.  理解分支,并使用`git 分支进行文章备份`
+2.  `Nginx`部署博客
+3.  `Flask 初识`
+4.  `MYSQL`内容补充
+
+{% endtimenode %}
+
+
+
 {% timenode 2021-01-14 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
 
 1. `Python`基础完结
