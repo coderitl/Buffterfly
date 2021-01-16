@@ -1,10 +1,11 @@
 ---
 title: Linux-Install-Python3
-date: 2021-01-13 20:43:28
 tags:
-- Linux
-- Python
+  - Linux
+  - Python
 categories: Python
+abbrlink: 4118
+date: 2021-01-13 20:43:28
 top_img:
 ---
 

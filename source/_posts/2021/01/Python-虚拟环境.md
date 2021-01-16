@@ -1,10 +1,11 @@
 ---
 title: Python-虚拟环境
-date: 2021-01-03 10:40:03
 tags:
-- Python
-- 虚拟环境
+  - Python
+  - 虚拟环境
 categories: Python
+abbrlink: 42073
+date: 2021-01-03 10:40:03
 top_img:
 cover:
 ---

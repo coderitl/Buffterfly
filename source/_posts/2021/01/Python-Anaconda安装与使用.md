@@ -1,10 +1,11 @@
 ---
 title: Python-Anaconda安装与使用
-date: 2021-01-11 10:50:26
 tags:
-- Python
-- Anaconda 
+  - Python
+  - Anaconda
 categories: Python
+abbrlink: 44616
+date: 2021-01-11 10:50:26
 top_img:
 ---
 

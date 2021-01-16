@@ -1,10 +1,11 @@
 ---
 title: Python-基础
-date: 2021-01-03 16:27:23
 tags:
-- Python
-- Python-基础
+  - Python
+  - Python-基础
 categories: Python
+abbrlink: 62556
+date: 2021-01-03 16:27:23
 top_img:
 cover:
 ---

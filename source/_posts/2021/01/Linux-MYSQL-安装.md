@@ -1,10 +1,11 @@
 ---
 title: Linux-MYSQL 安装
-date: 2021-01-03 11:21:33
 tags:
-- linux
-- mysql
-Categories: 
+  - linux
+  - mysql
+abbrlink: 10285
+date: 2021-01-03 11:21:33
+Categories:
 top_img:
 cover:
 ---

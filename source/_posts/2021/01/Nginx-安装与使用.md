@@ -1,9 +1,10 @@
 ---
 title: Nginx-安装与使用
-date: 2021-01-13 20:06:57
 tags:
-- Nginx
-categories: HTML
+  - Nginx
+categories: Nginx
+abbrlink: 53200
+date: 2021-01-13 20:06:57
 ---
 
 
@@ -37,7 +38,20 @@ categories: HTML
 + 启动`nginx`服务
 
   ```bash
+  # 可以启动有缺点
   nginx
+  
+  # 推荐启动方式
+  centos6 / ubuntu: service nginx start # 启动服务
+  # 高版本 Linux / ubuntu
+  systemctl start nginx  # 启动 nginx 服务
+  systemctl stop nginx # 关闭 nginx 服务
+  systemctl restart nginx # 重启 nginx
+  systemctl status nginx # 查看 nginx 状态
+  systemctl enable nginx # 开机自启
+  systemctl disable nginx # 关闭开机自启
+  
+  
   ```
 
   + 通过公网`IP`访问,进入首页

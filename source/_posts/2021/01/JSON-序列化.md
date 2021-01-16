@@ -1,11 +1,12 @@
 ---
 title: JSON-序列化
-date: 2021-01-06 19:38:31
 tags:
-- Python
-- Json
-- JSON 序列化
+  - Python
+  - Json
+  - JSON 序列化
 categories: Python
+abbrlink: 56134
+date: 2021-01-06 19:38:31
 top_img:
 cover:
 ---

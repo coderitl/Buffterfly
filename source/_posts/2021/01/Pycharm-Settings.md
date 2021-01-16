@@ -1,10 +1,11 @@
 ---
 title: Pycharm-Settings
-date: 2021-01-12 09:23:53
 tags:
-- Pycharm
-- Python
+  - Pycharm
+  - Python
 categories: Python
+abbrlink: 48682
+date: 2021-01-12 09:23:53
 top_img:
 ---
 
@@ -68,3 +69,20 @@ File --> Setting --> Editor --> Colors Scheme --> General
 ###  虚拟环境
 
 <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/TerMinal.png">
+
+###  阅读配置
+
++ 配置空格显示与函数之间进行区分
+
+  ```bash
+  Settings --> Appearance --> :
+  	
+  	1. show line number 
+  	
+  	2. show method separators
+  	
+  ```
+
+  
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/settings.png">
