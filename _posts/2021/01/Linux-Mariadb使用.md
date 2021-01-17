@@ -353,6 +353,17 @@ top_img:
   -- 子查询
   ```
 
++ 删除外键约束
+
+  ```sql
+  alter table table-name drop foreign key fotrign-key-name;
+  
+  -- 约束
+  restrict 不允许操作
+  cascade 级联操作
+  set null 设置为 null
+  ```
+
 + 表信息
 
   + `school`
@@ -370,3 +381,294 @@ top_img:
   + `salgrade`
 
     <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/salgrade.png">
+
+
+
+###  子查询
+
++ 子查询
++ 多表查询
+
+###  分页查询
+
++ 分页查询
+
+  ```sql
+  -- 降序
+  -- 所有记录
+  select  empno,ename,job,sal from emp order by sal desc;
+  -- 前 5 条记录
+  select  empno,ename,job,sal from emp order by sal desc limit 5;
+  -- 偏移 5 条查看 5 条: 6-10 条的记录
+  select  empno,ename,job,sal from emp order by sal desc limit 5 offset 5;
+  
+  -- offset 缩略写法
+  -- 跳过 10 条查 5 条
+  select  empno,ename,job,sal from emp order by sal desc limit 10,5;
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/limit.png">
+
++ 简化写法
+
+  ```sql
+  -- 查询全表比较信息
+  select  empno,ename,job,sal from emp order by sal desc;
+  -- 简化写法
+  select  empno,ename,job,sal from emp order by sal desc limit 10,5;
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/newlimit.png">
+
+###  注意事项
+
+```bash
+1. 创建数据库库和创建表命名尽量使用小写
+
+2. 作为筛选条件的字符串是区分大小看设置的校对规则
+
+    Eg. create database table-name default charset utf8 collate utf_bin_ci;
+
+    规则: utf_general_ci (忽略大小写)
+
+3. 数据库中的对象通常会用前缀加以区分
+	-- table / view / index / function / procedure
+```
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/diffSQL.png">
+
+###  练习
+
++ 批量插入
+
+  ```sql
+  insert into table-name values
+  	(),
+  	(),
+  	(); -- 最后一条 ;
+  ```
+
++ 外键自参照
+
+  ```sql
+  alter table tb_emp
+      add constraint fk_emp_mgr foreign key (mgr) references tb_emp (eno);
+  ```
+
++ 添加列到指定位置
+
+  ```sql
+  alter table table-name add column new-column-name data-type first; -- 添加到第一列
+  
+  alter table table-name add column new-column-name data-type after column-name; -- 某列的前面或后面
+  ```
+
++ 数据资源获取
++ 习题
+
+###  执行计划
+
++ 生成执行计划
+
+  ```sql
+  
+  -- 同一结果
+  
+  explain select ename,eno from tb_emp where eno=7800;
+  
+  explain select ename,eno from tb_emp where ename ='张三丰';
+  
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/explain.png">
+
+###  索引
+
++ `index`索引(一本书的目录)
+
++ 索引意义
+
+  ```sql
+  索引可以加速查询索引应该在经常用于查询筛选条件的列上建立索引
+  索引会使用额外的存储空间而且会让增删改变得更慢(因为要更新索引)
+  
+  所以不能滥用索引
+  ```
+
+  
+
++ 创建索引
+
+  ```sql
+  
+  -- create index index-name on table-name(key);
+  create index idx_emp_ename on tb_emp(ename);
+  
+  ```
+
++ 删除索引
+
+  ```sql
+  -- drop index idx_name on table-name; 
+  drop index idx_emp_ename on tb_emp;
+  ```
+
+###  视图
+
++ 查询结果的快照
+
++ 创建视图
+
+  ```sql
+  -- 创建视图
+  
+  -- create view view-name as select ····
+  create view view_emp_dept as select ename,t1.dno from tb_emp t1 inner join tb_dept td on t1.dno = td.dno;
+  
+  ```
+
++ 使用视图
+
+  ```sql
+  -- 使用视图  访问控制
+  
+  -- select * from view-name;
+  select * from view_emp_dept;
+  ```
+
++ 删除视图
+
+  ```sql
+  -- 删除视图
+  -- drop view view-name;
+  drop view view_emp_dept;
+  ```
+
+###  存储过程
+
++ 存储过程
+
+  ```sql
+  
+  -- 存储过程
+  delimiter $$
+  -- 重新定义定界符为 $$
+  -- 创建存储过程
+  create procedure  sp_dept_avg_Sal(deptno int,out avgsal float)
+  begin
+          select  avg(sal) into  avgsal from tb_emp where dno=deptno;
+  end $$
+  
+  
+  -- 将定界符还原回;
+  delimiter ;
+  ```
+
++ 删除存储过程
+
+  ```sql
+  -- 删除存储过程
+  drop procedure sp_dept_avg_Sal;
+  ```
+
++ 调用存储过程
+
+  ```sql
+  call sp_dept_avg_Sal(参数···);
+  ```
+
+###  函数
+
++ 函数
+
+  ```sql
+  
+  ```
+
+###   触发器
+
++ 触发器
+
+  ```sql
+  在执行增删改查的操作是可以触发其他联级操作,但是有可能导致“锁表”现象,实际开发中应该尽量避免使用触发器
+  ```
+
+###  权限
+
+```sql
+-- DCL: 授予权限(grant to) 和召回权限(revoke from)
+```
+
++ 创建用户
+
+  ```sql
+  -- 创建用户
+      create  user 'UserName'@'localhost' identified by 'yourpassword';
+      create  user 'UserName'@'127.0.0.1' identified by 'yourpassword';
+      create  user 'UserName'@'%' identified by 'yourpassword';
+  
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/newUser.png">
+
++ 删除用户
+
+  ```sql
+  -- 删除用户 一一对应 语法:
+  
+      drop user 'UserName'@'localhost';
+      
+  ```
+
+  
+
++ 授予权限
+
+  ```sql
+  -- 权限 Oracle--> dba 权限
+  -- 授予数据库所有的权限 给用户 ···
+  -- 语法:
+  grant all privileges on databases-name.* to 'user-name'@'address';
+  
+  ```
+
++ 收回权限
+
+  ```sql
+  -- 权限收回
+  -- revoke  收回什么权限 on 在那个数据 to 的哪个用户;
+  -- 收回增删改的权限 'user-name'@'address';
+  revoke select,update,delete on database-name.* to 'user-name'@'address';
+  ```
+
++ 事务
+
+  ```sql
+  -- 事务 (transaction) - 把多个增删改查的操作做成不可分割的原子性操作
+  -- 要么全部都做,要么全部做
+  -- 开启事务两种方法:
+      -- 1.begin ;
+      -- 2. start transaction;
+  
+  -- 插入测试数据
+  insert into tb_emp(eno, ename,job,sal) values (7900,'张三','吃瓜群众',1200);
+  -- 查询测试数据
+  select * from tb_emp;
+  -- 开启事务
+  start transaction;
+  -- 删除数据
+  delete from tb_emp where eno=7900;
+  
+  -- 再次查询
+  select * from tb_emp;
+  -- 提交(事务中的所有操作全都不生效)
+  commit;
+  -- 回滚(事务中的所有操作全部撤销)
+  rollback;
+  
+  -- 未执行 commit;
+  ```
+
+  
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/transaction.gif">
