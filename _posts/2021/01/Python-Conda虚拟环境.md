@@ -1,0 +1,118 @@
+---
+title: Python-Conda虚拟环境
+date: 2021-01-18 14:08:26
+tags:
+- python
+- conda
+categories: Python
+top_img:
+---
+
+###  Python-Conda虚拟环境
+
++ 创建虚拟环境
+
+  + 默认位置
+
+    + 查看当前环境有哪些虚拟环境
+
+      ```bash
+      conda info --envs
+      ```
+
+    + 创建
+
+      ```bash
+      # 创建虚拟环境
+      conda create -n ENV python==3.6(ENV 是新建虚拟环境名称)
+      ```
+
+    + 获取虚拟环境位置
+
+      ```bash
+      
+      # 进入 conda 安装位置
+      where conda
+      cd D:\ProgramData\Anaconda3\envs (your-path)
+      # 进入创建的虚拟环境 ENV
+      cd envs/your-venv
+      ```
+
+    + 激活虚拟环境
+
+      ```bash
+      cd Scripts
+      
+      activate your-venv-name
+      
+      ```
+
+    + 退出虚拟环境
+
+      ```bash
+      deactivate env-name
+      ```
+
+    + 删除虚拟环境
+
+      ```bash
+      conda remove -n your-env-name --all
+      ```
+
+###  Windows Anaconda 虚拟环境
+
++ 指定位置
+
+  ```bash
+  创建目录
+  mkdir your-proj-name
+  
+  cd your-proj-name
+  
+  ```
+
++ 依赖安装
+
+  ```bash
+  # 先进行安装
+  
+  pip install virtualenv
+  ```
+
++ 创建虚拟环境
+
+  ```bash
+  # 创建虚拟环境
+  virtualenv venv-name
+  ```
+
++ 激活虚拟环境
+
+  ```bash
+  
+  # 进入创建的虚拟环境文件夹
+  cd venv-name
+  
+  # 激活虚拟环境
+  # 进入 Scripts 文件夹
+  cd Scripts
+  # 激活
+  activate venv-name
+  ```
+
++ 删除虚拟环境
+
+  ```bash
+  conda remove --prefix=D:\python36\py36 --all
+  ```
+
++ 成功后
+
+  ```bash
+  (your-venv-name)path:
+  ```
+
+  
+
+
+

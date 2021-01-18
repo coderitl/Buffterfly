@@ -66,6 +66,26 @@ top_img:
 
     <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/rightC.png">
 
+  + `console`误关闭
+
+    ```bash
+    console 误关闭打开:
+    
+    	ctrl + shift + F10
+    	
+    	关闭后文件存在,但是需要手动备份源  >  新建文件.sql
+    	
+    	方块中显示出 console 需要上下左右键控制选择
+    ```
+
+    
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/conssol.png">
+
+    + 备份数据
+
+      <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/backupSQL.png">
+
   + `pycharm`展示`sql`
 
   + 快捷键
