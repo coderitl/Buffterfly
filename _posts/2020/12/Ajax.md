@@ -480,5 +480,275 @@ categories: Ajax
             })
     ```
 
+  + 最终使用
+  
+    ```javascript
+    function ajax(options) {
+      // 默认值
+      var defaults = {
+        type: "get",
+        url: "",
+        async: true,
+        date: {},
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        success: function () {},
+        error: function () {},
+      };
+      // 使用 options 对象中的属性覆盖 defaults 对象中的属性
+      Object.assign(defaults, options);
+      // 创建 Ajax 对象
+      var xhr = new XMLHttpRequest();
+      // 传递参数
+      var params = "";
+      // 遍历参数 对象用 for in
+      for (var attr in defaults.data) {
+        console.log(attr);
+        // 将参数转换为字符串格式
+        params += attr + "=" + defaults.data[attr] + "&";
+      }
+      // 将参数最后面的 & 截取掉
+      // 将截取的结果重新赋值给 params 变量
+      params = params.substr(0, params.length - 1);
+      // 判断请求格式
+      if (defaults.type == "get") {
+        defaults.url = defaults.url + "?" + params;
+      }
+      // 配置 Ajax 对象
+      xhr.open(defaults.type, defaults.url);
+      // 如果请求方式为 post
+      if (defaults.type == "post") {
+        // 用户希望的向服务器传递的请求参数的类型
+        var contentType = defaults.header["Content-Type"];
+        xhr.setRequestHeader("Content-Type", contentType);
+        // 判断用户希望的请求参数格式的类型
+        // 如果用户希望为 json
+        if (contentType == "application/json") {
+          // 向服务器端传递 json 数据格式的参数
+          xhr.send(JSON.stringify(defaults.data));
+        } else {
+          // 向服务器传递普通类型的请求参数
+          xhr.send(params);
+        }
+      } else {
+        xhr.send();
+      }
+      // 监听 xhr 下面的 onload 事件
+      // 当 xhr 对象接受完响应数据后触发
+      xhr.onload = function () {
+        // 获取响应头中的信息
+        var contentType = xhr.getResponseHeader("Content-Type");
+        var responseText = xhr.responseText;
+        if (contentType.includes("application/json")) {
+          responseText = JSON.parse(responseText);
+        }
+        // 当 http 状态码等于 200 的时候
+        if (xhr.status == 200) {
+          // 请求成功 调用处理成功情况的函数
+          defaults.success(responseText, xhr);
+        } else {
+          // 请求失败 调用处理失败情况的函数
+          defaults.error(responseText, xhr);
+        }
+      };
+    }
+    
+    ```
+
+####  模板引擎
+
++ 模板引擎概述
+
+  ```javascript
+  作用: 使用模板引擎提供的模板语法,可以将数据和HTML 拼接起来
+  ```
+
++ 安装
+
+  + 官网
+
+    ```bash
+    高性能Javascript模板引擎官网: https://aui.github.io/art-template/zh-cn/index.html
+    ```
+
+  + `npm`安装
+
+    ```bash
+    npm install art-template --save
+    ```
+
+  + 本地(`右击 templete-web.js - 链接另存为`)
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/art.png">
+
     
 
++ 使用
+
+  + 将模板引擎的库文件引入到`当前`页面
+
+    ```javascript
+    <!-- 1. 将模板引擎的库文件引入到当前页面 -->
+        <script src="/js/template-web.js"></script>
+    ```
+
+  + 准备 `art-template `模板
+
+    ```javascript
+     <script type="text/html" id="tp">
+             <!-- 2. 准备 art-template 模板 -->
+        <h1> {{ username }}</h1>
+        </script>
+    ```
+
+  + 告诉模板引擎将那个数据和哪个模板进行拼接
+
+    + 参数1: 模板 `id`
+    + 参数2: 数据 `对象类型 `
+
+    ```javascript
+     <script type="text/javascript">
+            // 3. 告诉模板引擎将那个数据和哪个模板进行拼接
+            //  3.1 模板 id
+            //  3.2 数据 对象类型 
+            // 方法的返回值就是拼接好的 HTML 字符串
+            var html = template('tp', { username: 'zhangsan', age: 30 });
+            console.log(html);
+            var container = document.querySelector('.container');
+            container.innerHTML = html;
+    
+        </script>
+    
+    ```
+
+  + 整体实现
+
+    ```javascript
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>客户端模板引擎使用步骤</title>
+        <!-- 1. 将模板引擎的库文件引入到当前页面 -->
+        <script src="/js/template-web.js"></script>
+    </head>
+    
+    <body>
+        <!-- 客户端模板引擎使用步骤.html -->
+        <div class="container"></div>
+        <script type="text/html" id="tp">
+             <!-- 2. 准备 art-template 模板 -->
+        <h1> {{ username }}</h1>
+        </script>
+        <script type="text/javascript">
+            // 3. 告诉模板引擎将那个数据和哪个模板进行拼接
+            //  3.1 模板 id
+            //  3.2 数据 对象类型 
+            // 方法的返回值就是拼接好的 HTML 字符串
+            var html = template('tp', { username: 'zhangsan', age: 30 });
+            console.log(html);
+            var container = document.querySelector('.container');
+            container.innerHTML = html;
+    
+        </script>
+    
+    
+    </body>
+    
+    </html>
+    ```
+
+  ####  邮箱验证案例
+
+  ```javascript
+  目标: 验证邮箱地址唯一性
+  ```
+
+  + 效果演示
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Ajax-Email.gif">
+
+  + 配置路由
+
+    ```javascript
+    
+    // 邮箱地址验证
+    app.get("/verifyEmailAdress", (req, res) => {
+      // 接收客户端传递过来的邮箱地址
+      const email = req.query.email;
+      // 判断邮箱地址注册过的情况
+      if (email == "3327511395@qq.com") {
+        // 设置http状态码并对客户端做出响应
+        res
+          .status(400)
+          .send({ message: "邮箱地址已经注册过了, 请更换其他邮箱地址" });
+      } else {
+        // 邮箱地址可用的情况
+        // 对客户端做出响应
+        res.send({ message: "恭喜, 邮箱地址可用" });
+      }
+    });
+    
+    ```
+
+  + `html`结构
+
+    ```html
+      <div class="container">
+            <!-- <p> <input type="email" name="" id="" placeholder="请输入邮箱地址"> </p> -->
+            <p> 邮箱: <input type="text" name="" id="email" placeholder="请输入邮箱地址"> </p>
+            <p id="info"></p>
+        </div>
+    
+    ```
+
+  + 验证原理
+
+    ```javascript
+    	// 引入已经封装好的 ajax.js
+        <script src="/js/ajax.js"></script>
+        <script>
+            // 获取文本框
+            var email = document.querySelector('#email');
+            // 提示信息
+            var info = document.querySelector('#info');
+            // 失去焦点
+            email.onblur = function () {
+                var email = this.value;
+                var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+                // 如果用户输入的邮箱地址不符合规则
+                if (!pattern.test(email)) {
+                    // 阻止程序向下执行
+                    info.innerHTML = '输入邮箱格式错误!'
+                    info.className = 'bg-danger';
+                    return;
+                }
+                // 向服务器发送
+                ajax({
+                    type: 'get',
+                    url: 'http://localhost:3000/verifyEmailAdress',
+                    data: {
+                        email: email
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        // 怎么添加 message ????
+                        // message = '恭喜,邮箱地址可用'
+                        info.innerHTML = result.message;
+                        info.className = 'bg-success';
+                    },
+                    error: function (result) {
+                        console.log(result);
+                        // message = '邮箱地址已经注册过了,请更换其他邮箱地址'
+                        info.innerHTML = result.message;
+                        info.className = 'bg-danger';
+                    }
+                });
+            }
+        </script>
+    ```
+
+    
