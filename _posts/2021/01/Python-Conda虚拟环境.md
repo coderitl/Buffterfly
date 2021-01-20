@@ -59,7 +59,7 @@ top_img:
       conda remove -n your-env-name --all
       ```
 
-###  Windows Anaconda 虚拟环境
+###  Windows Python2 虚拟环境
 
 + 指定位置
 
@@ -103,7 +103,7 @@ top_img:
 + 删除虚拟环境
 
   ```bash
-  conda remove --prefix=D:\python36\py36 --all
+  直接删除相应目录
   ```
 
 + 成功后
@@ -112,7 +112,57 @@ top_img:
   (your-venv-name)path:
   ```
 
+
+###  Windows Python3 虚拟环境
+
++ 创建虚拟环境
+
+  ```bash
+  # cmd --> 进入指定位置 
+  python -m venv new-venv-name
+  ```
+
++ 激活虚拟环境
+
+  ```bash
+  # 显示
+  dir
+  # 进入 new-venv-name
+  cd new-venv-name
   
+  cd Scripts
+  
+  activate  new-venv-name
+  
+  ```
 
++ 环境测试
 
+  ```bash
+  # 安装 Flask
+  pip instll flask
+  ```
 
+  + 进入`Python`交互式环境
+
+    ```bash
+    # 进入交互式环境
+    python 
+    # 导包
+    import flask
+    # 无显示正确
+    ```
+
++ `Pycharm`使用
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/flaskVenv.png" width="600">
+
+###  Flask项目使用虚拟环境
+
++ 使用
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/aloneVenv.png" width="600">
+
++ 项目测试
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/rightFlask.png">
