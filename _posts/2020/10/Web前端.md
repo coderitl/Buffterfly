@@ -33,14 +33,14 @@ wrong_hash_message: Sorry, this article cannot be verified, but you can still se
 <hr />
 
 + 手机: `17782523971`
-+ Email:  `3327511395@qq.com`
++ Email:  `yuanyuci@yeah.net(网易邮箱) / 3327511395@qq.com(QQ邮箱)`
 + 微信: `ZeroPlans(17629049261)`
 
 <hr />
 
 ###  个人信息
 
-+ 姓名： `王宏斌`,性别: `男`
++ 姓名： `王宏斌`
 + 专业: `计算机信息管理`
 + 技术博客: <a href="https://lovobin.github.io/">https://lovobin.github.io/</a>
 
@@ -76,15 +76,13 @@ wrong_hash_message: Sorry, this article cannot be verified, but you can still se
 ###  技能特长
 
 + 熟练 `DIV+CSS`页面重构,熟悉网页开发流程,网页切图
-+ 熟练`HTML5+CSS3`标签,熟悉`W3C`开发标准
-
++ 熟练`HTML5+CSS3`相关使用,熟悉`W3C`开发标准
 + 熟练掌握 `Javascript`语言,了解 `JQuery`
-
-+ 了解 ECMA 标准,熟练掌握 DOM.BOM 操作，熟悉 `JS`面向对象编程
-+ 了解 `Vue`框架,并能使用 `webpack` 搭建` vue-cli`开发单页面项目
 + 熟悉使用`MYSQL,Oracle 11g`等数据库
 + 熟悉使用`git`版本控制以及熟练使用 `Sublime`,`Photoshop`,`IDEA`,`Visual Stidio Code`,`Koala`等相关开发工具
-+ 了解 `javaWeb,Ajax,Node`等
++ 了解 ECMA 标准,熟练掌握 `DOM.BOM` 操作，熟悉 `JS`面向对象编程
++ 了解 `Vue`框架,并能使用 `webpack` 搭建` vue-cli`开发单页面项目
++ 了解 `Python,Ajax`等
 
 <hr />
 
