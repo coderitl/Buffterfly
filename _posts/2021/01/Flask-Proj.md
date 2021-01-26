@@ -28,17 +28,19 @@ top_img:
   Python 项目中必须包含一个 requirements.txt 文件 ,用于记录所有依赖包及其精确的版本号,以便在新环境中进行部署操作
   ```
 
-+ 在虚拟环境中使用一下命令将当前虚拟环境中的依赖包以版本号生成至文件中
++ 在虚拟环境中使用以下命令将当前虚拟环境中的依赖包以版本号生成至文件中
 
   ```bash
   pip freeze > requirements.txt
   ```
 
-+ 当需要创建这个虚拟环境的完全副本,可以创建一个新的虚拟环境,并执行一下命令
++ 当需要创建这个虚拟环境的完全副本,可以创建一个新的虚拟环境,并执行以下命令
 
   ```bash
   pip install -r requirements.txt
   ```
+
+
 
 ###  项目(Flask_Proj)
 
@@ -60,14 +62,14 @@ top_img:
 
 + 端口号修改
 
-  ```bash
-  port='端口号'
+  ```python
+  app.run(port='端口号')
   ```
 
 + 配置文件
 
   ```python
-  # 新建 settings.py, 写入一下配置信息
+  # 新建 settings.py, 写入以下配置信息
   
   ENV = 'development' # 开发环境
   DEBUG = True # 开启 debug 模式
@@ -137,7 +139,8 @@ top_img:
   ```
 
   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/add_url_rule.png">
-  + 路由的变量规则
+
+  +  路由的变量规则
 
     ```bash
     通过把 URL 的一部分标记为 <variable_name> 就可以在 URL 中添加变量。标记的 部分会作为关键字参数传递给函数。通过使用 <converter:variable_name> ，可以 选择性的加上一个转换器，为变量指定规则。
@@ -161,10 +164,122 @@ top_img:
 
   + 转换器类型：
 
-  | `string` | （缺省值） 接受任何不包含斜杠的文本 |
-  | -------- | ----------------------------------- |
-  | `int`    | 接受正整数                          |
-  | `float`  | 接受正浮点数                        |
-  | `path`   | 类似 `string` ，但可以包含斜杠      |
-  | `uuid`   | 接受 UUID 字符串                    |
+    | `string` | （缺省值） 接受任何不包含斜杠的文本 |
+    | -------- | ----------------------------------- |
+    | `int`    | 接受正整数                          |
+    | `float`  | 接受正浮点数                        |
+    | `path`   | 类似 `string` ，但可以包含斜杠      |
+    | `uuid`   | 接受 UUID 字符串                    |
+  
+  +  路由的斜杠问题（唯一的 `URL` 问题）
+  
+     ```python
+     ‘/index/’ 
+     
+     路由中没有斜杠,浏览器访问会报错
+     
+     路由中有斜杠,访问时没有则会自动重定向
+     ```
+  
+  + `return`
+  
+    ```python
+    return 后面返回的字符串其实也是做了一个 response 对象的封装。最后的返回结果还是 response 对象。
+    ```
+  
+    
+
+###  Jinja2 模板引擎
+
+####  渲染模板函数
+
+1. `Flask` 提供的 `render_template`函数封装了该模板引擎
+
+2.  `render_template` 函数的第一个参数是模板的文件名,后面的参数都是键值对,表示模板中变量对应的真实值。
+
+   ```python
+   # 导入 render_template
+   from flask import Flask,render_template
+   
+   # 使用 render_template
+   @app.route('/index', methods = ['GET', 'POST'])
+   def index():
+       return render_template('index.html')
+   ```
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Jinja2.png" width="600">
+
+3. 变量代码块
+
+   ```jinja2
+   {# 注释语法 #}
+   {{ value1 }}
+   
+   {# 通常,模板中使用的变量名和要传递的数据的变量名保持一致。 #}
+   
+   ```
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/jinjaStr.png" width="600">
+
+4. 控制代码块
+
+   + `for`循环
+
+     ```jinja2
+     {% for play in my_list %}
+         <h1> {{ play }} </h1>
+     {% endfor %}
+     ```
+
+     <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/forjinja.png">
+
+   + `if`
+
+     ```jinja2
+     {% if num>3 %}
+     {{ num} }}
+     {% endif %} 
+     ```
+
+5.  内建过滤器
+
+   + 含义
+
+     ```jinja2
+     过滤器:
+     
+     	过滤器的本质就是函数m有时候我们不仅仅要输出变量的值,我们还需要改变变量的显示甚至格式化,运算等等，而在模板中是不能直接
+     	
+     调用 Python 中的某些方法m那么就用到了过滤器。
+     
+     ```
+
+   + 使用方式
+
+     ```jinja2
+     
+     变量名 | 过滤器
+     
+     {{ variable | filter_name(*args) }} 
+     
+     {# 如果没有任何参数传递给过滤器,则可以省略括号 #}
+     
+     {{ variable | filter_name }}
+     
+     {# 链式调用 #}
+     
+     {{ variable | filter_name1 | filter_name2 | ··· }}
+     
+     https://www.bilibili.com/video/BV17W41177oE?p=14
+     
+     ```
+
+
+###  Web 表单
+
+```jinja2
+在 Flask 中,为了处理 web 表单,我们一般使用 Flask-WTF 扩展,它封装了 WTForms,并且它有验证表单数据的功能。
+```
+
+
 

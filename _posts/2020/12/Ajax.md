@@ -661,94 +661,200 @@ categories: Ajax
     </html>
     ```
 
-  ####  邮箱验证案例
+####  邮箱验证案例
+
+```javascript
+目标: 验证邮箱地址唯一性
+```
+
++ 效果演示
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Ajax-Email.gif">
+
++ 配置路由
 
   ```javascript
-  目标: 验证邮箱地址唯一性
+  
+  // 邮箱地址验证
+  app.get("/verifyEmailAdress", (req, res) => {
+    // 接收客户端传递过来的邮箱地址
+    const email = req.query.email;
+    // 判断邮箱地址注册过的情况
+    if (email == "3327511395@qq.com") {
+      // 设置http状态码并对客户端做出响应
+      res
+        .status(400)
+        .send({ message: "邮箱地址已经注册过了, 请更换其他邮箱地址" });
+    } else {
+      // 邮箱地址可用的情况
+      // 对客户端做出响应
+      res.send({ message: "恭喜, 邮箱地址可用" });
+    }
+  });
+  
   ```
 
-  + 效果演示
++ `html`结构
 
-    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Ajax-Email.gif">
+  ```html
+    <div class="container">
+          <!-- <p> <input type="email" name="" id="" placeholder="请输入邮箱地址"> </p> -->
+          <p> 邮箱: <input type="text" name="" id="email" placeholder="请输入邮箱地址"> </p>
+          <p id="info"></p>
+      </div>
+  
+  ```
 
-  + 配置路由
++ 验证原理
 
-    ```javascript
-    
-    // 邮箱地址验证
-    app.get("/verifyEmailAdress", (req, res) => {
-      // 接收客户端传递过来的邮箱地址
-      const email = req.query.email;
-      // 判断邮箱地址注册过的情况
-      if (email == "3327511395@qq.com") {
-        // 设置http状态码并对客户端做出响应
-        res
-          .status(400)
-          .send({ message: "邮箱地址已经注册过了, 请更换其他邮箱地址" });
-      } else {
-        // 邮箱地址可用的情况
-        // 对客户端做出响应
-        res.send({ message: "恭喜, 邮箱地址可用" });
-      }
-    });
-    
-    ```
+  ```javascript
+  	// 引入已经封装好的 ajax.js
+      <script src="/js/ajax.js"></script>
+      <script>
+          // 获取文本框
+          var email = document.querySelector('#email');
+          // 提示信息
+          var info = document.querySelector('#info');
+          // 失去焦点
+          email.onblur = function () {
+              var email = this.value;
+              var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+              // 如果用户输入的邮箱地址不符合规则
+              if (!pattern.test(email)) {
+                  // 阻止程序向下执行
+                  info.innerHTML = '输入邮箱格式错误!'
+                  info.className = 'bg-danger';
+                  return;
+              }
+              // 向服务器发送
+              ajax({
+                  type: 'get',
+                  url: 'http://localhost:3000/verifyEmailAdress',
+                  data: {
+                      email: email
+                  },
+                  success: function (result) {
+                      console.log(result);
+                      // 怎么添加 message ????
+                      // message = '恭喜,邮箱地址可用'
+                      info.innerHTML = result.message;
+                      info.className = 'bg-success';
+                  },
+                  error: function (result) {
+                      console.log(result);
+                      // message = '邮箱地址已经注册过了,请更换其他邮箱地址'
+                      info.innerHTML = result.message;
+                      info.className = 'bg-danger';
+                  }
+              });
+          }
+      </script>
+  ```
 
-  + `html`结构
 
-    ```html
-      <div class="container">
-            <!-- <p> <input type="email" name="" id="" placeholder="请输入邮箱地址"> </p> -->
-            <p> 邮箱: <input type="text" name="" id="email" placeholder="请输入邮箱地址"> </p>
-            <p id="info"></p>
-        </div>
-    
-    ```
+####   搜索内容框自动提示
 
-  + 验证原理
++ 实现思路
 
-    ```javascript
-    	// 引入已经封装好的 ajax.js
-        <script src="/js/ajax.js"></script>
-        <script>
-            // 获取文本框
-            var email = document.querySelector('#email');
-            // 提示信息
-            var info = document.querySelector('#info');
-            // 失去焦点
-            email.onblur = function () {
-                var email = this.value;
-                var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-                // 如果用户输入的邮箱地址不符合规则
-                if (!pattern.test(email)) {
-                    // 阻止程序向下执行
-                    info.innerHTML = '输入邮箱格式错误!'
-                    info.className = 'bg-danger';
-                    return;
-                }
-                // 向服务器发送
-                ajax({
-                    type: 'get',
-                    url: 'http://localhost:3000/verifyEmailAdress',
-                    data: {
-                        email: email
-                    },
-                    success: function (result) {
-                        console.log(result);
-                        // 怎么添加 message ????
-                        // message = '恭喜,邮箱地址可用'
-                        info.innerHTML = result.message;
-                        info.className = 'bg-success';
-                    },
-                    error: function (result) {
-                        console.log(result);
-                        // message = '邮箱地址已经注册过了,请更换其他邮箱地址'
-                        info.innerHTML = result.message;
-                        info.className = 'bg-danger';
-                    }
-                });
-            }
-        </script>
-    ```
+  ```bash
+  
+  1. 获取搜索框并为其添加用户输入事件
+  
+  2. 获取用户输入关键字
+  
+  3. 向服务器发送请求病携带关键字作为请求参数
+  
+  4. 将响应数据显示在搜索框底部
+  
+  ```
 
-    
++ 效果预览
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Ajax-lian.gif" width="600">
+
++ 配置路由
+
+  ```javascript
+  
+  // 搜索框自动提示
+  // 输入框文字提示
+  app.get("/searchAutoPrompt", (req, res) => {
+    // 搜索关键字
+    const key = req.query.key;
+    // 提示文字列表
+    const list = ["abcde", "abcedfg", "abc"];
+    // 搜索结果
+    let result = list.filter((item) => item.includes(key));
+    // 将查询结果返回给客户端
+    res.send(result);
+  });
+  ```
+
++ HTML结构
+
+  ```html
+   <div class="box">
+          <p> <input type="text" placeholder="请输入关键字" id="search"> </p>
+          <ul class="list-box">
+          </ul>
+      </div>
+  ```
+
++ 模板引擎结构
+
+  ```javascript
+   <script type="text/html" id="tpl">
+          {{each result}}
+          <li> {{$value}}</li>
+          {{/each}}
+      </script>
+  ```
+
++ `JS`原理
+
+  ```javascript
+  		// 1. 获取 搜索框
+          var searchInput = document.querySelector('#search');
+          // 获取 list-box
+          var listBox = document.querySelector('.list-box');
+          // 存储定时器的变量
+          var timer = null;
+          // 获取输入事件
+          searchInput.oninput = function () {
+              // 清除上一次开启的定时器
+              clearTimeout(timer);
+              // 获取当前输入的内容 
+              var key = this.value;
+              // 如果用户没有在搜索框输入内容
+              if (key.trim().length == 0) {
+                  listBox.style.display = 'none';
+                  // 阻止程序向下执行
+                  return;
+              }
+              // 开启定时器 让请求延迟发送
+              timer = setTimeout(function () {
+                  // 发送 Ajax 请求
+                  ajax({
+                      type: 'get',
+                      url: 'http://localhost:3000/searchAutoPrompt',
+                      data: {
+                          // 传递的参数 = 输入内容的 value 
+                          key: key
+                      },
+                      success: function (result) {
+                          var html = template('tpl', { result: result });
+                          listBox.innerHTML = html;
+                          listBox.style.display = 'block'
+                      }
+                  })
+              }, 800)
+          }
+  ```
+
+  
+
+####  省级联动
+
++ 局部实现(有些原理暂未理解,待补充···)
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/Ajax-city.gif">
