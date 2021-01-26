@@ -12,6 +12,16 @@ cover:
 
 ###   Python-基础
 
+```bash
+
+# 生成文件 pip freeze > requirements.txt
+
+# 依赖项安装: pip install -r requirements.txt
+
+```
+
+
+
 ####  1. 格式化输出 `format`
 
 ```python
@@ -2344,78 +2354,81 @@ print(next(g))
     ```python
     # greenlet
     
-  '''
-     # 进入  anaconda 安装的 Scripts下
-    
-     conda: conda install greenlet 
-     
-     windows: pip/pip3 install greenlet
-    
-    '''
-    
-    from greenlet import greenlet
-    import time
-    
-    
-    def a():
-        for i in range(5):
-            print('A' + str(i))
-            gb.switch()
-            time.sleep(0.1)
-    
-    
-    def b():
-        for i in range(5):
-            print('B' + str(i))
-            gc.switch()
-            time.sleep(0.2)
-    
-    
-    def c():
-        for i in range(5):
-            print('C' + str(i))
-            ga.switch()
-            time.sleep(0.3)
-    
-    
-    if __name__ == '__main__':
-        ga = greenlet(a)
-        gb = greenlet(b)
-        gc = greenlet(c)
-        # 需要调一下
-        ga.switch()
-    
-    '''
-    
-    结果输出: A0 B0 C0 A1 B1 C1 A2 B2 C2 A3 B3 C3 A4 B4 C4
-    
-    交替输出
-    
-    '''
-    
     ```
-
-  + 第三方`gevent`
-
+    
     ```python
-    '''
-    conda解释器安装 gevent:
+    # 进入  anaconda 安装的 Scripts下
+    
+      conda: conda install greenlet 
+    
+      windows: pip/pip3 install greenlet
+    ```
+    
+    ```python
+     from greenlet import greenlet
+      import time
+    
+    
+      def a():
+          for i in range(5):
+              print('A' + str(i))
+              gb.switch()
+              time.sleep(0.1)
+    
+    
+      def b():
+          for i in range(5):
+              print('B' + str(i))
+              gc.switch()
+              time.sleep(0.2)
+    
+    
+      def c():
+          for i in range(5):
+              print('C' + str(i))
+              ga.switch()
+              time.sleep(0.3)
+    
+    
+      if __name__ == '__main__':
+          ga = greenlet(a)
+          gb = greenlet(b)
+          gc = greenlet(c)
+          # 需要调一下
+          ga.switch()
+    
+      '''
+    
+      结果输出: A0 B0 C0 A1 B1 C1 A2 B2 C2 A3 B3 C3 A4 B4 C4
+    
+      交替输出
+    
+      '''
+  ```
+  
++ 第三方`gevent`
+  
+    ```python
+   
+   	'''
+    	  conda解释器安装 gevent:
         
         conda install gevent
         
-    成功后显示:  All requested packages already installed.
+        成功后显示:  All requested packages already installed.
+  
+        全局解释器安装: pip/pip3 install gevent
     
-    全局解释器安装: pip/pip3 install gevent
+    '''
      
     greenlet已经实现了协程，但是这个人工切换，是不是觉得太麻烦了，python 还有一个比 greenlet 更强大的并且能够自动切换任务的模块`gevent`,其原理是当一个 greentlet 遇到 IO（指的是input ouput输入输出，比如网络、文件操作等）操作时，比如访问网络，就自动切换到其他的greenlet,等到 IO 完成，再适当的时候切换回来继续执行。
     
     由于IO操作非常耗时，经常使程序处于等待状态，有了gevent我们自动切换协程，就保证总有greenlet在运行，而不是等待IO
+  
+  ```
+  
     
-    '''
-    ```
-
-    
-
+  
     ```python
     
     from greenlet import greenlet
@@ -2459,11 +2472,11 @@ print(next(g))
     
     添加猴子补丁后输出: A0 B0 C0 A1 B1 A2 C1 A3 B2 A4 B3 C2 B4 C3 C4 # 实现协程
     
-    '''
-    ```
-
+  '''
+  ```
+  
     + <font color="red">实现协程小应用</font>
-
+  
       ```python
       # 协程案例
       import urllib  # 错误
@@ -2501,5 +2514,183 @@ print(next(g))
           g3.join()
       
       ```
+  
 
-      
+###  PYMYSQL模块
+
++ 查询
+
+  ```python
+  # 输入相应参数
+  import pymysql
+  
+  
+  def main():
+      conn = pymysql.connect(host = 'localhost',
+                             port = 3306,
+                             user = 'root',
+                             passwd = 'root',
+                             db = 'student',
+                             charset = 'utf8',
+                             cursorclass = pymysql.cursors.DictCursor)  # 修改类型 元组类型需要去除该参数
+      try:
+          # 获取游标对象
+          with conn.cursor() as cursor:
+              # 执行 sql 注意参数位置
+              cursor.execute('select eno,ename,sal from tb_emp')
+              # 元组类型结果集
+              # for row in cursor.fetchall():
+              #     print('''
+              #     ----------- 查询所有 -------
+              #     eno: {}
+              #     ename: {}
+              #     sal: {}
+              #     -------------------------
+              #
+              #     '''.format(row[0], row[1], row[2]))
+  
+              # 字典类型结果集 如果查询时带别名, 那么字典的键要更改为 别名
+              for row in cursor.fetchall():
+                  # print(row)
+                  print('''
+                  -------------------------
+                  eno: {}
+                  ename: {}
+                  sal: {}
+                  --------------------------
+                  '''.format(row['eno'], row['ename'], row['sal']))
+      except pymysql.MySQLError as erro:
+          print(erro)
+      finally:
+          # 关闭连接释放资源
+          conn.close()
+  
+  
+  if __name__ == '__main__':
+      main()
+  
+  ```
+
++ 添加
+
+  ```python
+  # pymysql 的使用
+  import pymysql
+  
+  
+  # 生成文件 pip freeze > requirements.txt
+  # 依赖项安装: pip install -r requirements.txt
+  
+  def main():
+      conn = pymysql.connect(host = '127.0.0.1',
+                             port = 3306,
+                             user = 'root',
+                             password = 'root',
+                             db = 'student',
+                             charset = 'utf8')
+      try:
+          # 获得游标对象
+          with conn.cursor() as cursor:
+              # execute 执行
+              result = cursor.execute('insert into tb_emp values(1001,"张三",4500)')
+              if result == 1:
+                  print('添加成功')
+                  # commit() 很重要 否则看不到响应结果
+                  conn.commit()
+              else:
+                  print('添加失败，操作已经回滚···')
+      except pymysql.MySQLError as error:
+          print(e)
+          conn.rollback()
+      finally:
+          conn.close()
+  
+  
+  if __name__ == '__main__':
+      a = main()
+  
+  ```
+
++ 删除
+
+  ```python
+  # 输入相应参数
+  import pymysql
+  
+  
+  def main():
+      conn = pymysql.connect(host = 'localhost',
+                             port = 3306,
+                             user = 'root',
+                             passwd = 'root',
+                             db = 'student',
+                             charset = 'utf8')
+      eno = int(input('请输入要删除的员工编号: '))
+  
+      try:
+          # 获取游标对象
+          with conn.cursor() as cursor:
+              # 执行 sql
+              result = cursor.execute('delete from tb_emp where eno=%s', (eno,))
+              if result == 1:
+                  print('删除数据成功···')
+                  conn.commit()
+              else:
+                  print('删除数据失败,操作已经回滚····')
+      except pymysql.MySQLError as erro:
+          print(erro)
+          # 回滚
+          conn.rollback()
+      finally:
+          # 关闭连接释放资源
+          conn.close()
+  
+  
+  if __name__ == '__main__':
+      main()
+  
+  ```
+
++ 更新
+
+  ```python
+  # 输入相应参数
+  import pymysql
+  
+  
+  def main():
+      conn = pymysql.connect(host = 'localhost',
+                             port = 3306,
+                             user = 'root',
+                             passwd = 'root',
+                             db = 'student',
+                             charset = 'utf8')
+      # 输入内容
+      oldeno = int(input('请输入原编号: '))
+      neweno = int(input('请输入新编号: '))
+  
+      try:
+          # 获取游标对象
+          with conn.cursor() as cursor:
+              # 执行 sql 注意参数位置
+              result = cursor.execute('update tb_emp set eno = %s where eno = %s', (neweno, oldeno))
+              if result == 1:
+                  print('更新数据成功···')
+                  conn.commit()
+              else:
+                  print('更新数据失败,操作已经回滚····')
+      except pymysql.MySQLError as erro:
+          print(erro)
+          # 回滚
+          conn.rollback()
+      finally:
+          # 关闭连接释放资源
+          conn.close()
+  
+  
+  if __name__ == '__main__':
+      main()
+  
+  ```
+
+  

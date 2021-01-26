@@ -86,3 +86,19 @@ File --> Setting --> Editor --> Colors Scheme --> General
   
 
   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/settings.png">
+
+###  格式化添加空格
+
++ 在格式化后等号两边自动添加空格
+
+  ```bash
+  settings --> Code style --> python --> Space
+  ```
+
+  
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/codeFormat.png">
+  
+  + 最终效果
+  
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/finishCode.png">
