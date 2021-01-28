@@ -9,6 +9,8 @@ categories: Ajax
 
 >  [黑马] 前后端交互- AjaX技术学习
 
+
+
 ####  搭建`Ajax`环境
 
 + Ajax的应用场景
@@ -64,6 +66,8 @@ categories: Ajax
 
 ####  Ajax 运行原理
 
+
+
 #### Ajax的实现原理
 
 1. 创建Ajax对象
@@ -93,6 +97,8 @@ categories: Ajax
            }
    ```
 
+
+
 ####  Aja处理JSON数据
 
 + Ajax处理JSON数据
@@ -108,6 +114,8 @@ categories: Ajax
               document.body.innerHTML = str;
           }
   ```
+
+
 
 ####  Ajax请求参数传递
 
@@ -247,6 +255,8 @@ categories: Ajax
             }
     ```
 
+
+
 ####  Ajax错误处理
 
 + 网络畅通
@@ -327,6 +337,8 @@ categories: Ajax
   Http 状态码: 表示请求的处理结果 是服务器端返回的
   ```
 
+
+
 ####  低版本`IE` 浏览器的缓存问题
 
 + 问题
@@ -379,6 +391,8 @@ categories: Ajax
   
           }
   ```
+
+
 
 ####  同步异步
 
@@ -556,6 +570,8 @@ categories: Ajax
     
     ```
 
+
+
 ####  模板引擎
 
 + 模板引擎概述
@@ -661,6 +677,8 @@ categories: Ajax
     </html>
     ```
 
+
+
 ####  邮箱验证案例
 
 ```javascript
@@ -750,6 +768,7 @@ categories: Ajax
           }
       </script>
   ```
+
 
 
 ####   搜索内容框自动提示

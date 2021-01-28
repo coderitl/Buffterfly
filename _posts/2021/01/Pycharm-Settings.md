@@ -102,3 +102,12 @@ File --> Setting --> Editor --> Colors Scheme --> General
   + 最终效果
   
     <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/finishCode.png">
+
+###  多行编辑
+
+```bash
+双击 ctrl, 按住 ctrl, 上下键移动
+```
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/ctrlss.png">
+
