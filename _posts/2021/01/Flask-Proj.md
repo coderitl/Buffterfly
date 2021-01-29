@@ -248,7 +248,7 @@ top_img:
      ```jinja2
      过滤器:
      
-     	过滤器的本质就是函数m有时候我们不仅仅要输出变量的值,我们还需要改变变量的显示甚至格式化,运算等等，而在模板中是不能直接
+     	过滤器的本质就是函数,有时候我们不仅仅要输出变量的值,我们还需要改变变量的显示甚至格式化,运算等等，而在模板中是不能直接
      	
      调用 Python 中的某些方法m那么就用到了过滤器。
      
@@ -428,7 +428,39 @@ top_img:
   
   ```
 
-###  模板: 复用(类似于Vue 的插槽 `slot`)
++ `Flask-WTF`
+
+  + 下载
+
+    ```bash
+    pip install flask-wtf
+    ```
+
+  + 使用
+  
+    ```python
+    # 表单所需
+    from flask_wtf import FlaskForm
+    from wtforms import StringField, PasswordField, SubmitField
+    from wtforms.validators import DataRequired
+    
+    
+    # 定义登录类 
+    class LoginForm(FlaskForm):
+        username = StringField(u'用户名')
+        password = PasswordField(u'密码')
+        repassword = PasswordField(u'确认密码')
+        submit = SubmitField(u'提交')
+    
+    @app.route('/login',methods=["GET","POST"])
+    def login():
+    	login = LoginForm()
+        return render_template('index.html',login=login)
+        
+        
+    ```
+
+###  模板: 复用
 
 ```python
 模板继承 *
@@ -458,7 +490,7 @@ include
 
 + 案例
 
-  ```jinja2
+  ```python
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -535,7 +567,7 @@ include
 
 + 模板继承
 
-  ```jinja2
+  ```python
   {# 继承 base.html #}
   {% extends 'base.html' %}
   
@@ -565,7 +597,7 @@ include
 
 + 修改局部内容
 
-  ```jinja2
+  ```python
   
   {# div2 修改内容 #}
   
@@ -581,7 +613,7 @@ include
 
   + 方式一(不推荐)
 
-    ```jinja2
+    ```python
     
     {# css 预留 #}
     {% block mycss %}
@@ -606,7 +638,7 @@ include
 
     <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/url_map.png">
 
-    ```jinja2
+    ```python
     
     {# css 预留 #}
     {% block mycss %}
@@ -622,7 +654,7 @@ include
 
   + `js`外部资源引入
 
-    ```jinja2
+    ```python
     {# js 事件 #}
     {% block myscript %}
         <script>
@@ -711,4 +743,67 @@ include
   
   ```
 
-  
+
++ `Flask-script`
+
+  + 下载
+
+    ```bash
+    pip install flask-script
+    ```
+
+  + 使用
+
+    ```python
+    from flask_script import Manager
+    manager = Manager(app=app)
+    
+    	manager.run()
+    ```
+
+  + 启动方式
+
+    ```python
+    python/python3 app.py runserver [-h 0.0.0.0 -p new-port][可选参数]
+    ```
+
+###  持久化存储
+
+1. `pymysql`
+
+   ```bash
+   pip install pymysql
+   ```
+
+2. `Flask-SQLAlchemy`
+
+   ```python
+   
+   Flask-SQLAlchemy 是一个 Flask 扩展,简化了在 Flask 应用中使用 SQLAlchemy 的操作,SQLAlchemy 是一个强大的关系型数据库
+   
+   框架,支持多种数据库后台。SQLAlchemy 提供了高层 ORM，也提供了使用数据库原生SQL 的底层功能。
+   
+   ```
+
+   + 下载
+
+     ```bash
+     pip install flask-sqlalchemy # 实现 ORM 映射
+     ```
+
+   + 映射相关
+   
+     ```bash
+     pip install flask-migrate # 发布命令的工具
+     ```
+   
+   + 配置数据库连接
+   
+     ```bash
+     # 配置数据库
+     # mysql+pymysql://user:password@hostip:port/databasename
+     SQLALCHEMY_DATABASE_URI='mysql://root:root@127.0.0.1:3306/student'
+     ```
+   
+     
+
