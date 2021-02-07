@@ -7,6 +7,16 @@ top_img: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/hellowWorld.pn
 
 {% timeline Hexo日志 %}
 
+{% timenode 2021-02-05 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
+
+1.    搜索`奔跑的小前端`
+2.   {% hideBlock 小前端 %} <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/paiyou.png" width="600">{% endhideBlock %}
+3.  {% hideBlock 奔跑的小前端 %} <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/baidu.png" width="600">{% endhideBlock %}
+
+{% endtimenode %}
+
+
+
 {% timenode 2021-01-16 [2.6.6 -> 3.0](https://github.com/volantis-x/hexo-theme-volantis/releases) %}
 
 1.  理解分支,并使用`git 分支进行文章备份`

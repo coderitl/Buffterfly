@@ -84,7 +84,7 @@ hexo.extend.filter.register('after_render:html', function (htmlContent) {
     .loading-image div:nth-child(4),
     .loading-image div:nth-child(5),
     .loading-image div:nth-child(6){
-        background-color: #49b1f5;
+       background-image: linear-gradient(25deg, #d00034, #bf4874, #9b6bb7, #2588ff);
         width: 15px;
         height: 15px;
         border-radius: 100%;
@@ -135,7 +135,7 @@ hexo.extend.filter.register('after_render:html', function (htmlContent) {
  </script>`;
      const injectBody = `
  <div id="loading-container">
-     <p class="loading-text">玩命加载中 . . . </p> 
+     <p class="loading-text">资源加载中 ,请耐心等待. . . </p> 
      <div class="loading-image">
          <div></div>
          <div></div>
