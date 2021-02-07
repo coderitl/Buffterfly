@@ -205,7 +205,13 @@ cover:
                                                   
   ```
 
+
+
+
+
 ###  Node
+
+
 
 ####  系统模块
 
@@ -311,6 +317,255 @@ cover:
   别人写好的m具有特定功能,我们能直接使用的模块即第三方模块，由于第三方模块都是由多个文件组成并且被放置在一个文件夹中,所以又名包名。
   
   https://www.npmjs.com/
+  ```
+
+  
+
+####  第三方模块
+
++ 第三方模块`nodemon`,修改内容将会实时刷新,无需重新启动
+
+  ```bash
+  # 下载 
+  npm install nodemon -g
+  
+  #检测安装
+  nodemon -v
+  
+  # 使用
+  nodemon node-fils-name.js
+  
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/nodemon.png" width="600">
+
++ 第三方模块`nrm`
+
+  ```bash
+  nrm(npm registry manager): npm 下载地址切换工具 npm 默认下载地址在国外,国内下载速度慢
+  
+  # 安装 nrm
+  npm install nrm -g
+  # 显示可用下载列表
+  nrm list
+  # 使用可用 镜像
+  nrm use taobao
+  #  * 代表当前在用镜像
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/nrm.png" alt="下载失败" width="600">
+
+  + 解决方案(未尝试)
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/nrmresult.png">
+
++ 第三方模块`gulp`
+
+  1. `gulp`能做什么
+
+     ```bash
+     项目上线 HTML CSS JS 文件压缩
+     语法转换(es6,less)
+     公共文件抽离
+     ```
+
+  2. `gulp`使用步骤
+
+     + 项目中下载`gulp`库文件,要使用项目中根目录下执行`npm install gulp`
+
+     + 在项目根目录下新建`gulpfile.js`文件，只能是这个文件名
+     + 重构项目的文件夹结构 `src` 目录放置源代码文件 `dist`目录放置构建后文件
+     + 在 `gulpfile.js`文件中编写任务
+     + 在命令行工具中执行`gulp`任务
+
+  3.  `gulp`中提供的方法
+
+     + `gulp.src()`获取任务要处理的文件
+     + `gulp.desc()`输出文件
+     + `gulp.task()`建立gulp任务
+     + `gulp.watch()`监控文件的变化
+
+     + 使用`gulp`
+
+       <img src='https://gitee.com/wang_hong_bin/repo-bin/raw/master/gulp.png'>
+
+       ```javascript
+       " npm install gulp "
+       
+       // 引入 gulp
+       const gulp = require("gulp");
+       // 使用 gulp.task() 方法建立任务
+       // 参数: 1.任务的名称
+       // 参数: 2. 任务的回调 
+       gulp.task("first", () => {
+         // 获取要处理的文件
+         gulp
+           .src("./src/css/index/style.css") // src: 目录自定义 自动会生成
+           // 将处理后的文件输出到 dist 目录，dest输出
+           .pipe(gulp.dest("./dist/css/index")); // dist: 目录自定义 自动会生成
+       });
+       // 全局安装命令工具 npm install gulp-cli -g
+       ```
+
+       + 下载命令工具,全局安装(全局安装: 多个项目都会使用, 库文件则不同)
+
+         ```bash
+         # 安装
+         npm install gulp-cli -g
+         # 检测
+         gulp -v
+         # 使用
+         gulp task-name [Eg. first]
+         ```
+
+         <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/gulpfirst.png">
+
+     + `gulp`插件
+       1. `gulp-htmlmin` html 文件压缩
+       2.  `gulp-csso`压缩css
+       3. `gulp-babel`JavaScript语法转换
+       4. `gulp-less`语法转换
+       5. `gulp-uglify`压缩混淆 JavaScript
+       6. `gulp-file-include`公共文件包含
+       7. `browsersync` 浏览器实时同步
+
+     + 使用插件
+
+       ```bash
+       下载插件文档: https://www.npmjs.com/package/gulp-htmlmin
+       
+        npm install --save gulp-htmlmin
+        
+       ```
+
+       + 新建压缩 html 任务(先了解,等待后续补充)
+
+         ```javascript
+         // 引入 gulp
+         const gulp = require("gulp");
+         // 引用插件
+         const htmlmin = require("gulp-htmlmin");
+         
+         
+         // html 任务 压缩 html
+         // 建立任务
+         gulp.task("htmlmin", () => {
+           return (
+             gulp
+               // 获取处理任务路径
+               .src("./src/*.html")
+               // 压缩 html 文件中的代码 collapseWhitespace 压缩空格? true 是 pipe( 任务事件 )
+               .pipe(htmlmin({ collapseWhitespace: true }))
+               // 输出
+               .pipe(gulp.desc("dist"))
+           );
+         });
+         ```
+
+       + 原 `html `文件格式
+
+         <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/yuanhtml.png" width="600">
+
+       + 压缩后
+
+         <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/htmlmin.png">
+
+       + `构建`任务
+
+         ```javascript
+         // 构建任务  所有任务 通过 gulp default 全部执行
+         gulp.task('default',['htmlmin','first']);
+         
+         ```
+
+         
+
+####  package.json
+
+> 
+>
+> `node_modules` 无需传输，使用`npm install ` 会自动前往 `package.json` 寻找依赖下载
+>
+> 项目描述文件,记录当前项目的项目信息,例如: 项目名称 版本 作者` github` 地址 当前项目依赖了那些第三方模块 使用 `npm init -y` 生成
+>
+> 
+
++ `npm init -y`
+
+  ```bash
+  {
+    "name": "node-day03", 
+    "version": "1.0.0",
+    "description": "",
+    "main": "gulp-demo.js",
+    "dependencies": { # 项目依赖
+      "gulp": "^4.0.2",
+      "gulp-file-include": "^2.3.0",
+      "gulp-htmlmin": "^5.0.1"
+    },
+    "devDependencies": {}, # 开发依赖 --save 
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC" # 开放源代码协议
+  }
+  
+  ```
+
++ 开发依赖
+  1. 在项目的开发阶段需要依赖，线上运营阶段不需要依赖第三方包，称为开发依赖
+  2.  使用 `npm install` 包名 `--save-dev` 命令将包名添加到`package.json`文件的 `devDependencies`字段中
+
++ `package-lock.json`文件的作用
+  1. 锁定包的版本,确保再次下载时不会因为包版本不同产生问题
+  2.  加快下载速度, 因为该文件中已经记录了项目所依赖第三方包的树状结构和包的下载地址，重新安装时只需下载即可,不需做额外工作
+
++ 命令别名
+
+  ```javascript
+  package.json: 
+      "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1",
+          "build": "nodemon app.js"
+        }
+         
+  
+  "build": "命令"
+  
+  "build": "nodemon app.js"
+  
+  # 执行
+  npm run 别名 Eg. npm run build
+  
+  ```
+
+
+
+####   服务器端基础概念
+
++ 网站服务器
+
+  ```bash
+  能够提供网站访问服务的机器就是网站服务器,它能够接受客户端的请求,能够对请求做出响应。
+  ```
+
++ URL
+
+  ```bash
+  统一资源定位符,又叫 URL(uniform ResourceLocator) 是专门标识 Internet 网上资源位置而设的一种编址方式
+  ```
+
++ URL 的组成
+
+  ```bash
+  输出协议://服务器 ip或域名:端口/资源所在位置标识
+  
+  https://lovobin.github.io:80/2021/02/Node%E5%9F%BA%E7%A1%80/
+  
+  http: 超文本传输协议, 提供了一种发布和接受 HTML 页面的方法
+  
   ```
 
   
@@ -437,4 +692,37 @@ cover:
       image/png png图片格式
   ```
 
-  
+
+
+####  HTTP 协议
+
++ http 协议的概念
+
+  ```bash
+  超文本传输协议(英文: HyperText Transfer Protocol 缩写: HTTP) 规定了如何从网站服务器传输超文本到本地浏览器,它基于客户端服务器加构工作,是客户端服务器加构工作,是客户端和服务器端请求和应答的标准。
+  ```
+
++ 报文
+
+  ```bash
+  在 HTTP 请求和响应的过程中传递的数据块就叫报文m包括要传送的数据和一些附加信息,并且要遵循规定好的格式。
+  ```
+
++ 请求报文
+
+  1. 请求方式
+
+     + `GET`
+     + `POST`
+
+  2.  请求地址
+
+     ```javascript
+     server.on('request',(req,res)=>{
+         req.headers // 获取请求报文
+         req.url // 获取请求地址
+         req.method // 获取请求方式
+     })
+     ```
+
+     
