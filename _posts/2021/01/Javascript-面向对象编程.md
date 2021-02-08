@@ -3,7 +3,7 @@ title: Javascript-面向对象编程
 date: 2021-01-18 18:13:02
 tags:
 - Javascript
-categories: Javascript
+categories: javascript
 top_img:
 ---
 

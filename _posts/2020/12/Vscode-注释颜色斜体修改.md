@@ -52,3 +52,31 @@ categories: vscode
 
   
 
+###  目前在用 Vscode 插件安装
+
+1. TODO: 注释一下 `Todo Highlighter`
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/todo.png">
+
+2. `Bracket Pair Colorizer 2`
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/kh.png">
+
+3. 汉化插件`Chinese`
+
+4.  对齐，提高阅读 `Indent-Rainbow`
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/iR.png">
+
+5.  代码格式化插件`Prettier`
+6.  css 定义颜色直观显示`Color Highlight`
+
+7. Vue 高亮插件`Vetur`
+
+8. 运行各种代码 `Code Runner`
+
+9.  `Open-In-Browser`
+
+10.  可视化`git` 提交 `Git Graph`
+11. VSCode `Vim` 是一个用于 Visual Studio Code 的 Vim 仿真器
+12.  `koroFileHeader`,这个插件主要用于自动的插入头文件开头的说明和函数的说明
