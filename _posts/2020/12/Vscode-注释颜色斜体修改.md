@@ -78,5 +78,4 @@ categories: vscode
 9.  `Open-In-Browser`
 
 10.  可视化`git` 提交 `Git Graph`
-11. VSCode `Vim` 是一个用于 Visual Studio Code 的 Vim 仿真器
 12.  `koroFileHeader`,这个插件主要用于自动的插入头文件开头的说明和函数的说明

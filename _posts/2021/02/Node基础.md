@@ -323,7 +323,7 @@ cover:
 
 ####  第三方模块
 
-+ 第三方模块`nodemon`,修改内容将会实时刷新,无需重新启动
++ 第三方模块`nodemon`,很有必要安装使用,修改内容将会实时刷新,无需重新启动
 
   ```bash
   # 下载 
@@ -864,5 +864,448 @@ cover:
   服务器端不需要处理,可以直接响应给客户端的资源就是静态资源，例如 css javascript image 文件等
   ```
 
+  + 获取访问路径
+  
+    ```javascript
+    # 获取 pathname  
+    url.parse(req.url).pathname
+    ```
+  
+  + 获取当前文件的绝对路径
+  
+    ```javascript
+    # path 模块
+    
+    path.join(__dirname, "public" + pathname)
+    
+    ```
+
++ 静态资源读取
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/pathnameDefault.png">
+
+  ```javascript
+  # app.js
+      const http = require("http");
+      const url = require("url");
+      const path = require("path");
+      const fs = require("fs");
+  
+      const server = http.createServer();
+  
+      server.on("request", (req, res) => {
+        res.writeHead(200, {
+          "content-type": "text/html;charset=utf8",
+        });
+        // 响应文件路径
+        let pathname = url.parse(req.url).pathname;  
+        
+          #   pathname = pathname == "/" ? "/default.html" : pathname; 更新显示判断
+          
+        // 绝对路径获取 url
+        let realPath = path.join(__dirname, "public" + pathname);
+        fs.readFile(realPath, (error, data) => {
+          if (error != null) {
+            res.end("读取失败···");
+            return;
+          } else {
+            res.end(data);
+          }
+        });
+      });
+  
+      server.listen(3031, (error) => {
+        console.log("ok");
+      });
+  
+  ```
+
++ `mime`模块
+
+  ```bash
+  npm install mime
+  const mime = require('mime');
+  
+  let type = mime.getType(realPath);
+  res.writeHead(200,{
+  	'content-type': type
+  });
+  
+  ```
+
   
 
+####  同步`API`和异步`API`
+
+1. 同步API
+
+   > 只有当前 `API` 执行完成后,才能继续执行下一个 `API`
+
+2.  异步 API
+
+   > 当前 API 的执行不会阻塞后续代码的执行
+
+3. 比较
+
+   ```javascript
+   
+   
+   // 同步 sync
+   console.log("before···");
+   setTimeout(() => {
+    // 异步 async 
+     console.log("last···");
+   }, 20);
+   console.log("after···");
+   
+   
+   ```
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/async.png" width="400">
+
+4.  同步 `API` 和异步` API `的区别
+
+   > 
+   >
+   > 同步 API 可以从返回值中拿到 API 的执行结果,但是异步 API 是不可以的
+   >
+   > 同步 API 从上到下依次执行，前面代码会阻塞后面代码的执行。（会等待循环结束后才会执行后面的代码）
+   >
+   > 异步 API 不会等待 API 执行完成后再向下执行代码
+   >
+   > 
+
+   ```javascript
+   ------------------------------------- 1 ----------------------------------
+   // 同步函数返回值问题
+   function sum(n1, n2) {
+     return n1 + n2;
+   }
+   const value = sum(2, 3);
+   console.log(value); // 5
+   
+   // 异步函数返回值问题
+   function getMsg() {
+     setTimeout(() => {
+       return "异步执行";
+     }, 20);
+   }
+   const msg = getMsg();
+   console.log("return msg result: ", msg); // undefined
+   
+   ---------------------------------- 2: 同步 -------------------------------------
+   
+   for (var i = 0; i < 10; i++) {
+       console.log(i); // 同步会等待循环结束后才会执行后面的代码
+   }
+   console.log('for 循环后面的代码');
+   
+   ---------------------------------- 3: 异步 -------------------------------------
+       
+   console.log("code start running···············");
+   setTimeout(() => {
+     console.log("0.2 start code············");
+   }, 20);
+   
+   setTimeout(() => {
+     console.log("0 start code············");
+   }, 0);
+   console.log("code running end·············");
+   
+       
+   ```
+
+   <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/until.png" width="500">
+
+5. 回调函数
+
+   ```javascript
+   作用: 可以拿到异步函数的返回值
+   
+   // TODO: 异步函数通过回调函数获取返回值
+   function getData(callback) {
+     setTimeout(() => {
+       callback({
+         msg: "hello node js",
+       });
+     });
+   }
+   getData(function (data) {
+     console.log(data);
+   });
+   
+   ```
+
+   
+
+####  Promise 
+
+> promise 出现的目的是解决 Node.js 异步编程中回调地狱的问题。
+
++ promise的基本使用方法
+
+  ```javascript
+  const fs = require("fs");
+  let promise = new Promise((resolve, reject) => {
+    // 读取文件
+    fs.readFile("D.txt", "utf8", (error, data) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data.toString());
+      }
+    });
+  });
+  
+  promise
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  ```
+
++  顺序读取文件
+
+  ```javascript
+  // 难以维护 
+  const fs = require("fs");
+  fs.readFile("./A.txt", "utf8", (error, data) => {
+    console.log(data.toString());
+    fs.readFile("./B.txt", "utf8", (error, data) => {
+      console.log(data.toString());
+      fs.readFile("./C.txt", "utf8", (error, data) => {
+        console.log(data.toString());
+      });
+    });
+  });
+  
+  ```
+
++ 解决`Node.js`回调地狱问题
+
+  ```javascript
+  
+  // promise 的基础使用 解决Node.js 的回调地狱
+  
+  function p1() {
+    return (promise1 = new Promise((resolve, reject) => {
+      // 读取文件
+      fs.readFile("A.txt", "utf8", (error, data) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(data.toString());
+        }
+      });
+    }));
+  }
+  
+  function p2() {
+    return (promise2 = new Promise((resolve, reject) => {
+      // 读取文件
+      fs.readFile("B.txt", "utf8", (error, data) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(data.toString());
+        }
+      });
+    }));
+  }
+  
+  function p3() {
+    return (promise3 = new Promise((resolve, reject) => {
+      // 读取文件
+      fs.readFile("C.txt", "utf8", (error, data) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(data.toString());
+        }
+      });
+    }));
+  }
+  
+  
+  p1()
+    .then((r1) => {
+      console.log(r1);
+      return p2();
+    })
+    .then((r2) => {
+      console.log(r2);
+      return p3();
+    })
+    .then((r3) => {
+      console.log(r3);
+    });
+  ```
+
+####  异步函数
+
+> 异步函数就是异步编程语法的终极解决方案,它可以让我们将异步代码写成同步的形式让代码不再有回调函数嵌套，使代码变得清晰明了。
+
++ `async` 关键字
+
+  1. 普通函数定义前加`async`关键字  普通函数就变成异步函数
+
+  2.  异步函数默认返回 `promise`对象
+
+  3.  在异步函数内部使用 `return` 关键字进行结果返回 结果会被包裹再 `promise`对象中 return 关键字代替了 `resolve()`
+
+  4.  在异步函数内部使用 `throw` 关键字抛出程序异常
+
+  5.  调用异步函数再链式调用 `then `方法获取异步函数执行结果
+
+  6.  调用异步函数再链式调用 `catch`方法获取异步函数执行的错误信息
+
+     ```javascript
+     // 异步函数
+     async function fn() {
+       throw 'throw error infomation';
+       return "return result data";
+     }
+     console.log(fn()); //默认输出: Promise { undifined }
+     
+     
+     // then方法 catch方法
+     fn()
+       .then((data) => {
+         console.log(data); // 成功: Promise { 'return result data' }
+       })
+       .catch((error) => {
+         console.log(error); //失败: Promise { <rejected> 'throw error infomation' }
+       });
+     
+     ```
+
++ `await`关键字
+
+  1. `await`关键字`只能`出现在异步函数中
+  2.  `await promise await`后面只能写`promise`对象  写其他类型的 `API` 是不可以的
+  3.  `await`关键字是可以暂停异步函数向下执行 知道 `promise`返回结果
+
+  ```javascript
+  async function fn1() {
+    return "fn1";
+  }
+  async function fn2() {
+    return "fn2";
+  }
+  async function fn3() {
+    return "fn3";
+  }
+  
+  // 顺序执行 异步函数
+  async function runFn() {
+    let r1 = await fn1();
+    let r2 = await fn2();
+    let r3 = await fn3();
+    console.log(r1, r2, r3);
+  }
+  
+  runFn();
+  
+  ```
+
++ 使用异步函数顺序读取文件
+
+  ```javascript
+  const fs = require("fs");
+  const promisify = require("util").promisify;
+  const readFile = promisify(fs.readFile);
+  
+  async function run() {
+    let r1 = await readFile("./A.txt", "utf8");
+    let r2 = await readFile("./B.txt", "utf8");
+    let r3 = await readFile("./C.txt", "utf8");
+    console.log(r1, r2, r3);
+  }
+  run()
+  
+  ```
+
+  
+
+####  数据库
+
++ 概念
+
+  |     术语     |                       解释说明                        |
+  | :----------: | :---------------------------------------------------: |
+  |  `database`  |    数据库`mongogdb` 数据库软件中可以建立多个数据库    |
+  | `collection` |  集合 一组数据的集合 可以理解为 JavaScript 中的数组   |
+  |  `document`  |    文档 一条具体的数据 可以理解为 JavaScript 对象     |
+  |   `field`    | 字段 文档中的属性名 可以理解为 JavaScript中的对象属性 |
+
++ 第三方包
+
+  + `使用 Node.js`操作Mongodb数据库需要依赖`Node.js`第三方包`mongoose`
+
+    ```bash
+    npm install mongoose
+    ```
+
+  + 启动`mongodb`服务
+
+    ```bash
+    net start mongodb
+    ```
+
+  + 关闭`mongodb`服务
+
+    ```bash
+    net stop mongodb
+    ```
+
+  + 启动遇到如下错误
+
+    ```bash
+    
+    ‘环境变量’  bin/
+    
+    发生系统错误 5。
+    
+    拒绝访问。
+    
+    解决: 使用管理员权限启动 mongodb 服务
+    
+    chdir 命令: 获取 windows 的路径 == pwd
+    ```
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/adminMon.png" width="600" alt="普通管理员" title="普通管理员">
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/netStartMon.png" width="600" alt="超级管理员" title="超级管理员">
+
++ `Nodes`连接数据库
+
+  ```javascript
+  // 引入 mongoose  模块
+  const mongoose = require("mongoose");
+  mongoose
+    .connect("mongodb://localhost/student", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true 
+    })
+    .then(() => {
+      console.log("数据库连接成功");
+    })
+    .catch((error) => {
+      console.log(error, "连接失败");
+      return;
+    });
+  
+  ```
+
++ 创建集合
+
+  ```javascript
+  创建集合分为两个步骤:
+  	1. 对集合设定规则
+      2. 创建集合
+      创建 mongoose.Schema 构造函数的实例即可创建集合
+  ```
+
+  
