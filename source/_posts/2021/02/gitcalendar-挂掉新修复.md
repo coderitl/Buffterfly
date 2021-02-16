@@ -3,9 +3,9 @@ title: gitcalendar 挂掉新修复
 date: 2021-02-06 17:00:37
 tags:
 - hexo
-- Buffterfly
+- Butterfly
 - gitcalendar
-categories: Buffterfly
+categories: Butterfly
 ---
 
 ###  gitcalendar 挂掉新修复
@@ -28,15 +28,19 @@ categories: Buffterfly
 
 <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/20210206172348.png" width="600">
 
+
+
 <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/deleteV.png" width="600">
 
-4. 使用小冰老师提供的`API`导入,获取链接
+
+
+4.  使用小冰老师提供的`API`导入,获取链接
 
    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/other.png" width="400">
 
-5. 获取部署后的 此格式地址`python-github-calendar-api-zeta.vercel.app`
+5.  获取部署后的 此格式地址`python-github-calendar-api-zeta.vercel.app`
 
-6.  主题配置文件中添加如下
+6.   主题配置文件中添加如下
 
    ```bash
    gitcalendar:
@@ -48,7 +52,7 @@ categories: Buffterfly
      
    ```
 
-7. 个人修改了`js`api前缀
+7. 个人修改了`js  api`前缀
 
    ```bash
    var githubapiurl = "https://python-github-calendar-api-zeta.vercel.app/api?/" + calendar.user;
@@ -58,6 +62,12 @@ categories: Buffterfly
 
    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/newG.png"  width="400">
 
-9. 使用 Vercel  进行不博客部署
+9.  使用 Vercel  进行博客部署
 
    > <a href="https://learnmore.vercel.app/">Vercel 博客部署地址</a>
+
+10. 更新部署
+
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/vercel.png" width="600">
+    
+    <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/updateVercel.png" width="600">
