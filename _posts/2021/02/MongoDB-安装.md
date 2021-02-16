@@ -1,11 +1,11 @@
 ---
-title: Mongodb-安装与使用
+title: MongoDB-安装
 date: 2021-02-10 11:39:49
 tags:
 - Node
 - SQL
-- Mongodb
-categories: Node
+- MongoDB
+categories: MongoDB
 top_img:
 ---
 
@@ -78,3 +78,6 @@ top_img:
 
   
 
+####  开启验证后使用 `Navcat`
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/monPassword.png" width="400">

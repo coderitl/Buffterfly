@@ -1308,4 +1308,265 @@ cover:
       创建 mongoose.Schema 构造函数的实例即可创建集合
   ```
 
+
+
+
+####  模板引擎
+
++ 模板引擎
+
+  ```bash
+  模板引擎是第三方模块
+  
+  让开发者以更加友好的方式拼接字符串,使项目代码更加清晰,更加易于维护。
+  ```
+
++ 模板引擎下载
+
+  ```bash
+  npm install art-template
+  ```
+
++ 模板引擎的使用
+
+  ```javascript
+  const template = require('art-template');
+  const html = template('模板路径',数据);
+  ```
+
++ 模板引擎基础使用
+
+  ```javascript
+  // 导入模板引擎
+  const template = require("art-template");
+  // 引入系统模块 path
+  const path = require("path");
+  // 路径拼接
+  const views = path.join(__dirname, "views", "index.art");
+  
+  const html = template(views, {
+    age: 10,
+    name: "Node",
+  });
+  console.log(html);
+  
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/arttemplate.png" width="300">
+
++ 输出,支持运算符
+
+  1. 标准语法
+
+     ```javasc
+     {{ name }}
+     ```
+
+  2.  原始语法
+
+     ```javascript
+     <%= name %>
+     ```
+
+  3.  原文解析
+
+     ```javascript
+     app.js:
+     	{
+             name: "<h3>Node</h3>"
+         }
+     
+     -------------------------------------
+     {{@ name }} // 输出: <h3>Node</h3>
+      
+     <%- name %> // 输出: <h3>Node</h3>
+         
+     ```
+
++ 条件判断
+
+  ```javascript
+  {{if age>30 }}
+  年龄过大
+  {{ else if age<15}}
+  {{ age }}
+  {{/if}}
+  ```
+
++ 循环
+
+  ```javascript
+  {{ each 数据}}  {{/each}}
+  ```
+
+  
+
++ 子模板
+
+  ```javascript
+  使用子模板可以将网站公共区块(头部、底部)抽离到单独的文件中。
+  ```
+
+  ```javascript
+  // 标准语法: 引入头部
+  {{include './commen/header.art'}}
+  // 原始语法: 引入底部
+  <% include('./commen/footer.art') %>
+  ```
+
++ 模板继承
+
+  ```javascript
+  使用模板继承可以将网站 HTML 骨架抽离到单独文件中,其他页面模板可以继承骨架文件。
+  ```
+
+  ```javascript
+  // 留坑
+  {{block 'name'}} {{/block}}
+                     
+   // 继承
+  {{extend 'path/art-template name'}}
+  // 填充
+  {{block 'name'}}  填充 {{/block}}
+  ```
+
++ 模板配置
+
+  ```javascript
+  1. 向模板中导入变量 template.defaults.imports.变量名 = 变量值;
+  2. 设置模板根目录 template.defaults.root = 模板目录;
+  3. 设置模板默认后缀 template.defaults.extname='.art'
+  ```
+
++ 路由模块
+
+  ```bash
+  npm install router
+  ```
+
+  + 使用步骤
+    1. 获取路由对象
+    2.  调用路由对象提供的方法创建路由
+    3.  启用路由,使路由生效
+
+  ```javascript
+  
+  /*********************************************/
+  // 引入路由模块
+  const getRouter = require("router");
+  // 获取路由对象
+  const router = getRouter();
+  // TODO:  test 路由
+  router.get("/test", (req, res) => {
+    res.end("/test");
+  });
+  
+  // TODO: index 路由
+   router.get("/index", (req, res) => {
+    res.end("/index");
+  });
+  /*********************************************/
+  
+  
+  server.on("request", (req, res) => {
+    // 启用路由 必填参数
+    router(req, res, () => {
+      console.log("被调用");
+    });
+    // 启用静态资源 fn 必填参数
+      serve(req, res, () => {
+      
+    });
+  });
+  
+  
+  
+  ```
+
++ 第三方模块`serve-static`
+
+  ```bash
+  功能: 实现讲台资源访问服务
+  ```
+
+  + 下载
+
+    ```bash
+    npm install serve-static
+    ```
+
+  + 使用步骤
+
+    1. 引入 `serve-static`模块获取创建静态资源服务功能的方法
+    2.  调用方法创建静态资源服务并指定静态资源服务目录
+    3.  启用静态资源服务功能
+
+  ```javascript
+  
+  /*********************************************/
+  // 引入静态资源模块
+  const serveStatic = require("serve-static");
+  // 实现静态资源访问 参数为静态资源目录
+  const serve = serveStatic(path.join(__dirname, "public"));
+  /*********************************************/
+  
+  
+  
+  server.on("request", (req, res) => {
+  
+    // 启用静态资源 fn 必填参数
+      serve(req, res, () => {
+      
+    });
+  });
+  
+  ```
+
+  
+
+####  Express 框架
+
++ `express`
+
+  ```javascript
+  Express 是一个基于 Node 平台的 web 应用开发框架,它提供了一系列强大的特性,帮助你创建各种 web 应用
+  ```
+
++ 下载
+
+  ```bash
+  npm install express
+  ```
+
++ 框架特性
+
+  1. 提供了方便简介的漏油定义方式
+  2.  对获取 `HTTP `请求参数进行了简化处理
+  3.  对模板引擎支持高,方便面渲染动态 `HTML` 页面
+  4.  提供了中间件机制有效控制 `HTTP` 请求
+  5.  拥有大量第三方中间件对功能进行扩展  
+
++ 使用`express`
+
+  ```javascript
+  // 引入 express 框架
+  const express = require('express');
+  // 创建服务 
+  const app = express();
+  // 监听端口
+  app.listen(3031);
+  
+  ```
+
+  + `send`方法
+    1. `send` 方法内部会检测响应内容的类型
+    2. `send` 方法会自动设置 `http` 状态码
+    3. `send ` 方法会帮我们自动设置响应的内容类型以及编码
+
++ 中间件
+
+  ```javascript
+  中间件就是一堆方法,可以接受客户端发来的请求，可以对请求做出响应,也可以将请求继续交给下一个中间件继续处理。
+  ```
+
   
