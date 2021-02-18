@@ -1526,17 +1526,17 @@ cover:
 
 ####  Express 框架
 
-+ `express`
+#####  `express`
 
-  ```javascript
-  Express 是一个基于 Node 平台的 web 应用开发框架,它提供了一系列强大的特性,帮助你创建各种 web 应用
-  ```
+```javascript
+Express 是一个基于 Node 平台的 web 应用开发框架,它提供了一系列强大的特性,帮助你创建各种 web 应用
+```
 
-+ 下载
+#####  `Express`下载
 
-  ```bash
-  npm install express
-  ```
+```bash
+npm install express
+```
 
 + 框架特性
 
@@ -1563,10 +1563,191 @@ cover:
     2. `send` 方法会自动设置 `http` 状态码
     3. `send ` 方法会帮我们自动设置响应的内容类型以及编码
 
-+ 中间件
+
+##### 中间件
+
+```javascript
+中间件就是一堆方法,可以接受客户端发来的请求，可以对请求做出响应,也可以将请求继续交给下一个中间件继续处理。
+```
+
+```javascript
+app.use('/index',(req,res,next)=>{
+    // 调用 index 走该中间件
+    next();
+})
+```
+
+1. `app.use`匹配所有的请求方式,可以直接传入请求处理函数，代表接受所有的请求
+
+   ```javascript
+   app.use((req,res,next)=>{
+       console.log(req.url);
+       next();
+   })
+   ```
+
+2.  `app.use`第一个参数也可以传入地址，代表不论什么请求方式,只要是这个请求地址就接受这个请求
+
+   ```javascript
+   app.use('/index',(req,res,next)=>{
+       console.log(req.url);
+       next();
+   })
+   ```
+
+#####  中间件的应用
+
+1.  路由保护，客户端在访问需要登录的页面时，可以先使用中间件判断用户登录状态,用户如果未登录,直接响应,禁止用户进入需要登录的页面
+
+   ```javascript
+   
+   // 中间件
+   app.use("/admin", (req, res, next) => {
+     // 用户没有登录
+     let isLogin = true;
+     if (isLogin) {
+       // true 就是登录 如果登录继续向下执行
+       next();
+     } else {
+       // 如果用户没有登陆.直接对客户端做出响应
+       res.send("请登录·········");
+     }
+   
+     app.get("/admin", (req, res) => {
+       res.end("你已登陆·····");
+     });
+   });
+   ```
+
+   
+
+2.  网站维护公告,在所有路由的最上面定义接收所有请求的中间件，直接为客户端做出响应，网站正在维护中
+
+3.  自定义`404页面`
+
+   ```javascript
+   app.use((req, res, next) => {
+     res.status(404).send("当前访问页面不存在");
+   });
+   ```
+
+   
+
+ #####  错误处理中间件
+
+> 在程序执行的过程中,不可避免的会出现一些无法预料的错误,比如文件读取失败,数据库连接失败,错误处理中间件是一个集中处理错误的地方
+
++ 基本使用
 
   ```javascript
-  中间件就是一堆方法,可以接受客户端发来的请求，可以对请求做出响应,也可以将请求继续交给下一个中间件继续处理。
+  
+  app.get("/list", (req, res) => {
+    // 抛出异常
+    throw new Error("程序发生了未知错误");
+   // res.end("程序正常执行");
+  });
+  // 错误处理中间件
+  app.use((err, req, res, next) => {
+    res.status(500).send(err.message);
+  });
+  ```
+
+
+
+#####  捕获错误
+
+```javascript
+try catch 可以捕获异步函数以及其他同步代码在执行过程中发生的错误,但是不能其他类型的 API 发生的错误。
+```
+
+#####  Express 请求处理
+
++ 构建模块化路由
+
+  ```javascript
+  /*******************************/
+  // 路由
+  index.js:
+      // 创建路由对象
+      const index = express.Router();
+      // 为路由对象匹配请求路径
+      app.use("/index", index);
+      // 创建二级路由
+      index.get("/home", (req, res) => {
+        res.send("Blog home Index");
+      });
+      module.exports = index;
+  /*******************************/
+  app.js:
+  	const index = require('path/index.js');
+  	// index/home: Blog home Index
+  	app.use('/home',index);
+  /*******************************/
+  ```
+
+  
+
+#####  GET请求参数处理
+
+> `Express` 框架中使用 `req.query`即可获取 `GET`参数,框架内部会将 `GET`请求参数转换为对象并返回
+
+```javascript
+app.get('/index',(req,res)=>{
+    res.send(req.url);
+  console.log(req.query); // { name: 'zhangsan', age: '10' }
+});
+```
+
+
+
+##### POST 请求参数处理
+
+> 第三方模块: `npm install body-parser`
+
+```javascript
+// 引入第三方模块
+const bodyParser = require("body-parser");
+// 配置
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post("/index", (req, res) => {
+  res.send(req.url);
+  console.log(req.body); // [Object: null prototype] { username: 'qw', pwd: 'sa' }
+});
+```
+
+```javascript
+// 解释
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// 拦截所有请求参数
+extended: false 方法内部使用 querystring 模块处理请求参数的格式
+extended: true 方法内部使用第三方模块 qs 处理请求参数的格式
+
+```
+
+##### Express 路由参数
+
+```javascript
+app.get("/index/:id", (req, res) => {
+  console.log(req.params); 
+});
+```
+
+#####  Express 静态资源处理
+
++ 静态资源
+
+  ```javascript
+  通过 Express 内置的 express.static 可以方便地托管静态文件,例如 img,css,javascript 文件等。
+  ```
+
+  ```javascript
+  const pathname = path.join(__dirname, "public");
+  // 实现静态资源访问功能
+  app.use(express.static(pathname));
+  
+  // 访问: http://127.0.0.1:3031/[default.html]
   ```
 
   
