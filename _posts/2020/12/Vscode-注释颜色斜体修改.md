@@ -79,3 +79,16 @@ categories: vscode
 
 10.  可视化`git` 提交 `Git Graph`
 12.  `koroFileHeader`,这个插件主要用于自动的插入头文件开头的说明和函数的说明
+
+
+
+###  Vscode修改默认终端为`bash.exe`
+
+>  // 修改终端为 `bin/bash`
+>
+>  ` "terminal.integrated.shell.windows": "D:\\Program Files\\Git\\bin\\bash.exe",`
+>
+> 注意: 该`bash`为`git-bash`安装目录中:`bin目录下的 bash.exe，而非git-bash.exe`,否则会唤起`bash`单独终端
+>
+> 
+
