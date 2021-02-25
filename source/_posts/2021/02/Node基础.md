@@ -185,7 +185,7 @@ cover:
 
   ```javascript
   // 安装 cnpm
-  npm install -g cnpm --registry=https://registry.npm.taobao.org
+  npm install -g cnpm --registry=https://registry.npm.taobao.org || npm install --global cnpm
   
   // 常用命令
   安装包
@@ -1528,11 +1528,15 @@ cover:
 
 #####  `express`
 
+
+
 ```javascript
 Express 是一个基于 Node 平台的 web 应用开发框架,它提供了一系列强大的特性,帮助你创建各种 web 应用
 ```
 
 #####  `Express`下载
+
+
 
 ```bash
 npm install express
@@ -1540,9 +1544,9 @@ npm install express
 
 + 框架特性
 
-  1. 提供了方便简介的漏油定义方式
+  1. 提供了方便简介的路由定义方式
   2.  对获取 `HTTP `请求参数进行了简化处理
-  3.  对模板引擎支持高,方便面渲染动态 `HTML` 页面
+  3.  对模板引擎支持高,方便渲染动态 `HTML` 页面
   4.  提供了中间件机制有效控制 `HTTP` 请求
   5.  拥有大量第三方中间件对功能进行扩展  
 
@@ -1563,8 +1567,9 @@ npm install express
     2. `send` 方法会自动设置 `http` 状态码
     3. `send ` 方法会帮我们自动设置响应的内容类型以及编码
 
-
 ##### 中间件
+
+
 
 ```javascript
 中间件就是一堆方法,可以接受客户端发来的请求，可以对请求做出响应,也可以将请求继续交给下一个中间件继续处理。
@@ -1594,6 +1599,8 @@ app.use('/index',(req,res,next)=>{
        next();
    })
    ```
+
+
 
 #####  中间件的应用
 
@@ -1726,6 +1733,8 @@ extended: true 方法内部使用第三方模块 qs 处理请求参数的格式
 
 ```
 
+
+
 ##### Express 路由参数
 
 ```javascript
@@ -1733,6 +1742,8 @@ app.get("/index/:id", (req, res) => {
   console.log(req.params); 
 });
 ```
+
+
 
 #####  Express 静态资源处理
 
@@ -1751,3 +1762,50 @@ app.get("/index/:id", (req, res) => {
   ```
 
   
+
+#####  模板引擎
+
+1. 模板引擎
+
+   ```javascript
+   为了使 `art-template`模板引擎能够更好的和`Express`框架结合,模板引擎官方在原 `art-template` 模板引擎的基础上封装了`express-art-template`
+   ```
+
+2.  下载
+
+   ```bash
+   npm install art-template express-art-template 
+   ```
+
+3.  使用
+
+   ```javascript
+   //*********************************
+   // 模板引擎的使用
+   //*********************************
+   
+   const express = require("express");
+   const app = express();
+   const path = require("path");
+   
+   // 1. 告诉 express 框架使用什么模板引擎渲染什么后缀的模板文件
+   app.engine("art", require("express-art-template"));
+   // 2. 告诉 express 框架模板存放的位置
+   app.set("views", path.join(__dirname, "views"));
+   // 3. 告诉 express 框架模板的默认后缀是什么
+   app.set("view engine", "art");
+   
+   // 创建一个路由
+   app.get("/index", (req, res) => {
+     res.render("index", {
+       msg: "message",
+     });
+   });
+   
+   app.listen(3031, () => {
+     console.log("服务器启动成功··················");
+   });
+   
+   ```
+
+   
