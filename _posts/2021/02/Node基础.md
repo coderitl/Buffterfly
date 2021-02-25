@@ -185,7 +185,7 @@ cover:
 
   ```javascript
   // 安装 cnpm
-  npm install -g cnpm --registry=https://registry.npm.taobao.org
+  npm install -g cnpm --registry=https://registry.npm.taobao.org || npm install --global cnpm
   
   // 常用命令
   安装包

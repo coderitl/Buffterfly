@@ -161,6 +161,7 @@ categories: Bootstrap
 1. 文件进行`git`上传
 2.  开启`git pages`
 3.  文件进行`cdn`加速处理
+4.  项目预览: <a href="https://lovobin.github.io/AliBaixiu/index.html">Bootstrap-响应式</a>
 
 ###  整体回顾
 
