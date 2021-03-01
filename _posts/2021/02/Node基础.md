@@ -1809,3 +1809,481 @@ app.get("/index/:id", (req, res) => {
    ```
 
    
+
+###  Node 深入补充
+
+
+
+####  系统模块
+
+
+
+##### 读取目录树
+
++ `R`
+
+  ```javascript
+  // 同步读取文件
+  let dirs = fs.readdirSync("./");
+  console.log(dirs); // 需要捕获异常
+  
+  -------------------------- 改进 ------------------------------------
+  
+  //捕获同步执行异常 
+  try {
+    // 可能出现错误的代码
+    let dirtree = fs.readdirSync("./");
+    console.log(dirtree);
+  } catch (err) {
+    // 错误后执行的代码
+    console.log("执行出错,请仔细阅读错误信息: ", err);
+  }
+  ------------------------------------------------------------------
+  
+  // 异步读取
+  fs.readdir("./", (err, data) => {
+    // 错误的回调函数优先,在回调函数中第一个参数表示错误对象 默认为 null 如果出现错误 err 就是错误对象
+    if (err) {
+      console.log("请重新尝试: ", err);
+    } else {
+      console.log(data);
+    }
+  });
+  ```
+
+  
+
+#####  创建目录
+
++ `C`
+
+  ```javascript
+  // 创建文件夹
+  fs.mkdir("../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件夹创建成功");
+    }
+  });
+  ```
+
+
+
+#####  更改
+
++ `U`
+
+  ```javascript
+  // 更改文件夹
+  fs.rename("../qf-Node-day03", "../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("重命名成功");
+    }
+  });
+  
+  ```
+
+
+
+#####  删除
+
++ `D`
+
+  ```javascript
+  // 删除文件夹 只能删除空文件夹
+  fs.rmdir("../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件夹删除成功");
+    }
+  });
+  
+  ```
+
+
+
+#####  文件读写删除
+
++ 读写
+
+  ```javascript
+  // 文件写入
+  fs.writeFile("./writeJs.js", "// Node JS written successfully", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      fs.readFile("./writeJs.js", (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(data.toString('utf8'));
+        }
+      });
+    }
+  });
+  ```
+
++ 删除文件
+
+  ```javascript
+  fs.unlink("./writeJs.js", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件已删除");
+    }
+  });
+  
+  ```
+
+
+
+#####  URL
+
++ `url`
+
+  ```bash
+  统一资源定位符
+  ```
+
++ 图解
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/url.png">
+
++ `url.parse`
+
+  ```javascript
+  
+  const url = require('url');
+  let urlpath = 'https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver';
+  let urlparse = url.parse(urlpath);
+  
+  console.log(urlparse);
+  /*
+  Url {
+    protocol: 'https:',
+    slashes: true,
+    auth: null,
+    host: 'www.bilibili.com',    
+    port: null,
+    hostname: 'www.bilibili.com',
+    hash: null,
+    search: '?p=7&spm_id_from=pageDriver',
+    query: 'p=7&spm_id_from=pageDriver',
+    pathname: '/video/BV13E411y7G4',
+    path: '/video/BV13E411y7G4?p=7&spm_id_from=pageDriver',
+    href: 'https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver'
+  }
+  */
+  ```
+
+  + 将对象转换为字符串
+
+    ```javascript
+    // 将对象转换为字符串
+    let strurl = url.format(urlparse);
+    console.log(strurl); //  https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver
+    
+    ```
+
+  + 获取`url`参数
+
+    ```javascript
+    // 获取对象参数的值
+    let params = url.parse(urlpath, true).query;
+    console.log(params);
+    
+    ```
+
++ `quertstring`
+
+  ```javascript
+  
+  const qs = require("querystring");
+  
+  // 基本使用
+  let str = "p=7&spm_id_from=pageDriver";
+  console.log(qs.parse(str)); // [Object: null prototype] { p: '7', spm_id_from: 'pageDriver' }
+  
+  -------------------------------------------------------------------------------------------------
+  
+      // 添加参数
+  let newStr = "p*7#spm_id_from*pageDriver";
+  // * # 为 query 的显示方式,而使用该方式进行解析
+  let obj = qs.parse(newStr, "#", "*");
+  console.log(obj); // [Object: null prototype] { p: '7', spm_id_from: 'pageDriver' }
+  
+  ```
+
++ `stringfy`
+
+  ```javascript
+  // stringfy
+  let jsonS = { p: "7", spm_id_from: "pageDriver" };
+  var jsonStr = qs.stringify(jsonS);
+  console.log(jsonStr); // p=7&spm_id_from=pageDriver
+  ```
+
+  
+
++ `nodemailer`
+
+  {% hideBlock 请勿尝-了解知识 %}
+
+  ```javascript
+  // npm install nodemailer
+  "use strict";
+  const nodemailer = require("nodemailer");
+  
+  // 创建发送邮件对象
+  let transporter = nodemailer.createTransport({
+    host: "smtp.qq.com", // 发送方邮箱类型: QQ 网易 ···
+    port: 465,
+    secure: true, //  true for 465, false for other ports
+    auth: {
+      user: 'xxx@qq.com', // 发送方邮箱地址
+      pass: '', // smtp 验证码
+    },
+  });
+  
+  // 邮件信息
+  let mailobj = {
+    from: "<xxx@qq.com>", // 邮件发送地址
+    to: "xxx@qq.com",
+    subject: "Node 发送邮箱测试", // 标题
+    text: "发送成功 Node Message", // text 和 html 选其一作为发送文本
+    html: "<h1> 发送成功 Node Message </h1>",
+  };
+  
+  // 发送邮件
+  transporter.sendMail(mailobj,(err,data)=>{
+      if(err){
+          console.log(err);
+      }else{
+          console.log(date);
+      }
+  });
+  ```
+
+  {% endhideBlock %}
+
+
+
+####  Express 路由
+
++ 路由下载
+
+  ```bash
+  npm install router
+  ```
+
+  
+
++ 拆解路由
+
+  ```javascript
+  
+  router: /userRouter
+  		userRouter:
+  			const express = require("express");
+  			const router = express.Router();
+  			// user api 
+   			router.get('/login',(req,res)=>{
+                  res.send({
+                      code: 1,
+                      ps: 'login ok'
+                  });
+              });
+   		module.exports = router;
+  
+  
+  -------------------------------------------------------------------------    
+      
+  app.js:
+  	const express = require("express");
+  	const app = express();
+  	// 引入拆分路由
+  	const userRouter = require('./router/userRouter');
+  	// 使用路由
+  	app.use('/user',userRouter);
+  	
+  解析:
+  	app.use('/user',userRouter);
+  
+  	http:127.0.0.1:3031/user/【截取: 进入 userRouter 中寻找请求路由地址 eg: /login ]
+  
+  	所以最终请求地址为: 	http:127.0.0.1:3031/user/login
+  
+  ```
+
+
+
+
+####  模板引擎
+
+##### 模板引擎下载
+
+```bash
+npm install art-template --save 
+```
+
+#####  使用模板引擎
+
+```javascript
+const template = require("art-template");
+const fs = require("fs");
+// 读取 art.html 字符串模板
+fs.readFile("./public/art.html", (err, data) => {
+  if (err) {
+    return console.log("读取失败");
+  } else {
+    // 渲染模板引擎
+    let templateRes = template.render(data.toString(),{
+        name: "李四"
+    });
+    console.log(templateRes);
+  }
+});
+
+```
+
+
+
+#####   静态资源文件路径开放问题
+
++ `express`中静态资源路径处理
+
+  ```javascript
+  
+  // 开放静态资源路径 访问方式: 127.0.0.1:3031/public/file-name
+  app.use("/public", express.static("./public/"));
+  
+  // 当省略第一个参数的时候可以省略 /public 的方式访问 访问方式: 127.0.0.1:3031/file-name
+  app.use(express.static("./public/")); 
+  
+  // 疑惑: path.join() 暂时理解有误 拼接使用错误
+  let filepath = path.join(__dirname,"public")
+  
+  
+  ```
+
+  <img src="https://img-blog.csdnimg.cn/20210228132814369.gif" title="express-开放静态资源路径" width="700">
+
+
+
+####  GET请求参数处理案例
+
++ `app.js`
+
+  ```javascript
+  const fs = require("fs");
+  const url = require("url");
+  const template = require("art-template");
+  // 创建 express 服务器
+  const express = require("express");
+  const app = express();
+  
+  // 开放静态资源路径 访问方式: 127.0.0.1:3031/public/file-name
+  // app.use("/public", express.static("./public/"));
+  
+  // 当省略第一个参数的时候 可以省略 /public 的方式访问
+  app.use(express.static("./public/")); // 127.0.0.1:3031/file-name
+  
+  
+  // index router
+  app.get("/index", (req, res) => {
+    // 读取文件
+    fs.readFile("public/index.html", (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        let resoult = template.render(data.toString());
+        res.send(resoult);
+      }
+    });
+  });
+  
+  /* ************************************* */
+  let comments = [];
+  /* ************************************* */
+  
+  app.get("/pinglun", (req, res) => {
+    // 读取 pinglun.html
+    fs.readFile("public/pinglun.html", (err, data) => {
+      if (err) {
+        console.log("文件读取失败");
+      } else {
+        // 解析 get 参数数据
+        let parserObj = url.parse(req.url, true);
+        let pathname = parserObj.pathname; //  /pinglun
+        console.log(pathname);
+        let comment = parserObj.query; // ? 后面的数据 { username: 'asd', message: 'dsadad' }
+        // 追加到数组中 服务器端这个时候已经把数据存储好了 接下来就是让用户重新请求 / 首页
+        comments.unshift(comment);
+  
+        // 重定向问题
+        // 如何通过服务器让客户端重定向
+        // 1. 状态码设置为 302 临时重定向
+        // statusCode
+        // 2. 在响应头中通过 Location 告诉客户端往哪儿重定向
+        // setHeader
+        // res.statusCode = 302;
+        // res.setHeader("Location", "/");
+        // res.send();
+        // 模板字符串
+        for (let i = 0; i < comments.length; i++) {
+          let templateP = template.render(data.toString(), {
+            username: comments[i]["username"],
+            message: comments[i]["message"],
+          });
+          res.send(templateP);
+        }
+      }
+    });
+  });
+  
+  // 监听端口号
+  app.listen(3031, () => {
+    console.log("服务器启动成功··········");
+  });
+  
+  // 缺点: 未能对 get 表单参数进行截取 只能读取一条数据
+  
+  ```
+
++ 实现效果
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/NodeGetData.gif" width="800" title="GET 表单数据处理">
+
++ 完善`BUG`
+
+  ```javascript
+  问题原因: 在模板字符串渲染参数给中对第二个参数传递时理解有误
+  
+  解决方案；
+       let templateP = template.render(data.toString(), {
+           // comments --> 参数名称 comments--> 数组 而这个数组包含对象 [{},···]
+           comments: comments,
+            });
+            res.send(templateP);
+  
+  // 模板字符串
+   {{each comments}}
+            <tr>
+              <td>2021-02-28</td>
+              <td>{{$value.username}}</td>
+              <td>{{$value.message}}</td>
+            </tr>
+   {{/each}}
+              
+  // 缺陷: 未添加重定向
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/fixBug.gif" title="修复第一次由于参数传递错误引起的bug" width="800"> 
+
+
+
