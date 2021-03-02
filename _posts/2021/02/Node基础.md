@@ -327,7 +327,7 @@ cover:
 
   ```bash
   # 下载 
-  npm install nodemon -g
+  npm install nodemon --global
   
   #检测安装
   nodemon -v
@@ -2153,12 +2153,64 @@ fs.readFile("./public/art.html", (err, data) => {
 
 
 
+
+
+#### 包说明文件
+
++ `package.json`
+
+  ```bash
+  npm init -y
+  
+  npm install package-name --save
+  --save: 可以将包添加到 package.json 中的 dependencies 选项中
+  注意: 建议每个项目都有 package.json 文件
+  
+  ```
+
+  
+
+####  NPM
+
++ `npm`官网
+
+  <a href="https://www.npmjs.com/">点击前往 npm 官网 </a>
+
++ `npm`命令行管理工具
+
+  ```bash
+  npm install package-name --save
+  ```
+
++ `npm`升级
+
+  ```bash
+  npm install --global npm
+  ```
+
+  
+
+####  Express
+
+#####  下载
+
+```bash
+npm install express
+```
+
+#####  使用 
+
+```javascript
+const express = require('express');
+const app = express();
+app.listen('端口号','回调函数');
+```
+
 #####   静态资源文件路径开放问题
 
 + `express`中静态资源路径处理
 
   ```javascript
-  
   // 开放静态资源路径 访问方式: 127.0.0.1:3031/public/file-name
   app.use("/public", express.static("./public/"));
   
@@ -2287,3 +2339,193 @@ fs.readFile("./public/art.html", (err, data) => {
 
 
 
++ 个人案例源码参考
+
+  <a href="https://github.com/lovobin/Bin-HTML5/tree/main/Node/node-day10">  点击前往 查看 
+
+
+
+####  模板引擎
+
+#####  下载模板引擎
+
+```bash
+// 一次性下载多个包
+npm i art-template express-art-template -S
+
+// 单独下载
+npm install art-template --save
+npm install express-art-template --save
+
+```
+
+#####  配置`art-template`
+
+```javascript
+// 配置使用 art-template art-->: 可以修改为支持语法高亮的后缀文件 比如: html 
+app.engine('art',require('express-art-template'))
+
+第一个参数: 表示 当渲染以 .art 结尾的文件的时候,使用 art-template 模板引擎
+
+express-art-template 是专门用来在 Express 中把 art-template 整合到 Express 中
+
+必须下载 art-template 原因就在于 express-art-template 依赖了 art-template 
+
+```
+
+#####  使用`art-template`
+
+```javascript
+Express 为 Response 响应对象提供了一个方法: render
+
+render 方法默认是不可以使用的,但是如果配置了模板引擎就可以使用了
+
+// html 模板名必须和上面一致的后缀 统一放在 views 目录中 ,views 中有目录就需要根据目录依次书写文件路径 默认 views/
+res.render('html模板名',{模板数据});
+
+第一个参数不能写路径,默认会去项目中的 views 目录中查找该模板文件
+
+注意: 在Express中: 开发人员把所有的试图文件都放到 views 目录中
+
+```
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/expressarttemplate.png" width="800">
+
+#####  配置`views`目录
+
+```javascript
+app.set('views',render函数的默认路径); // 第一个参数必须是 views 
+```
+
+
+
+####  POST 表单数据处理
+
++ `app.js`
+
+  ```javascript
+  // 引入 express 框架
+  const express = require("express");
+  // 创建服务
+  const app = express();
+  
+  // 配置解析 post 表单的中间件
+  const bodyparser = require("body-parser");
+  app.use(bodyparser.urlencoded({ extended: false }));
+  
+  // 路由
+  let userRouter = require("./router/userRouter");
+  app.use("/user", userRouter); // 127.0.0.1:3031/user/login  通过 user 再进入 userRouter 下寻找对应路由
+  
+  // 开放静态资源 添加public 的化显示更加直观
+  app.use("/public/", express.static("./public/"));
+  // 省略 public 则对 url 显示更加简介简洁
+  
+  // 使用 express-art-template 模板引擎 app.engine('以什么后缀的文件',)
+  app.engine("html", require("express-art-template"));
+  
+  // 监听端口号
+  app.listen(3031, () => {
+    console.log("Express 服务器启动成功");
+  });
+  ```
+
++ 路由
+
+  ```javascript
+  const express = require("express");
+  const router = express.Router();
+  
+  let comments = [];
+  
+  router.get("/index", (req, res) => {
+    res.render("index.html");
+  });
+  
+  router.post("/pinglun", (req, res) => {
+    // 通过 req.body 获取post 表单请求数据
+    let comment = req.body;
+    comments.unshift(comment);
+    res.render("pinglun.html", { comments: comments });
+  });
+  module.exports = router;
+  
+  ```
+
++ 字符串转换为对象
+
+  ```javascript
+  // 文件中读取的数据一定是字符串
+  // 需要手动转换为 对象
+  JSON.parse(data).对象名
+  ```
+
+  
+
+####  设计路由`Node-day12`问题遗留,后续能力提升补充原因
+
+| 请求方法 |      请求路径      | get参数 |            post 参数             |       备注       |
+| :------: | :----------------: | :-----: | :------------------------------: | :--------------: |
+|  `GET`   |    `/students`     |         |                                  |     渲染首页     |
+|  `GET`   |  `/students/new`   |         |                                  |  渲染添加学生页  |
+|  `POST`  |  `/students/new`   |         |   `name，age，gender，hobbies`   | 处理添加学生请求 |
+|  `GET`   |  `/students/edit`  |  `id`   |                                  |   渲染编辑页面   |
+|  `POST`  |  `/students/edit`  |         | `id，name，age，gender，hobbies` |   处理编辑请求   |
+|  `GET`   | `/students/delete` |  `id`   |                                  |   处理删除请求   |
+
++ 模板引擎渲染结果不显示
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/artDB.png">
+
+  ```javascript
+  // 二级路由
+  
+  // 渲染首页
+  router.get("/", (req, res) => {
+    // 使用模板引擎
+    fs.readFile(pathname + "/../db.json", "utf8", (err, data) => {
+      if (err) {
+        return res.status(500).send("文件读取失败");
+      } else {
+        var students = JSON.parse(data).students;
+        //   console.log(typeof students);  object
+        res.render("index.art", {
+          //从文件中读取到的数据一定是字符串，所以一定要手动转换成对象
+          students: students,
+        });
+      }
+    });
+  });
+  
+   <tbody>
+            {{ each students }}
+            <tr>
+              <td>$value.id</td>
+              <td>$value.name</td>
+              <td>$value.gender</td>
+              <td>$value.age</td>
+              <td>$value.hobbies</td>
+            </tr>
+            {{ /each }}
+    </tbody>
+  
+  ```
+
++ `json`数据
+
+  ```json
+  {
+    "students": [
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" }
+    ]
+  }
+  
+  ```
+
+  
