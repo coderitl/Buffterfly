@@ -2462,7 +2462,7 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
 
   
 
-####  设计路由`Node-day12`问题遗留,后续能力提升补充原因
+####  设计路由
 
 | 请求方法 |      请求路径      | get参数 |            post 参数             |       备注       |
 | :------: | :----------------: | :-----: | :------------------------------: | :--------------: |
@@ -2473,59 +2473,223 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
 |  `POST`  |  `/students/edit`  |         | `id，name，age，gender，hobbies` |   处理编辑请求   |
 |  `GET`   | `/students/delete` |  `id`   |                                  |   处理删除请求   |
 
-+ 模板引擎渲染结果不显示
+#####  路由:` 127.0.0.1:3031/students`
 
-  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/artDB.png">
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/routerStudents.png" width="600">
+
++ 路由规则
 
   ```javascript
   // 二级路由
   
-  // 渲染首页
-  router.get("/", (req, res) => {
-    // 使用模板引擎
-    fs.readFile(pathname + "/../db.json", "utf8", (err, data) => {
+  -------------------- 封装独立模块 stident --------------------
+  
+  exports.find = (callback) => {
+    // 如果要获取一个函数中异步操作的结果 则必须通过回调函数来获取
+    fs.readFile(dbpath,'utf8', (err, data) => {
       if (err) {
-        return res.status(500).send("文件读取失败");
+        return callback(err);
       } else {
-        var students = JSON.parse(data).students;
-        //   console.log(typeof students);  object
-        res.render("index.art", {
-          //从文件中读取到的数据一定是字符串，所以一定要手动转换成对象
-          students: students,
+        console.log(typeof JSON.parse(data).students);
+        // callback 中的参数: 第一个是: 错误对象 第二个是: 数据
+        callback(null, JSON.parse(data).students);
+      }
+    });
+  };
+  
+  
+  -------------------------------------------
+      
+  studentsRouter:
+  		
+      // 渲染首页
+      router.get("/", (req, res) => {
+        // 使用封装函数 find()
+        Student.find((err, students) => {
+          if (err) {
+            return res.status(500).send("文件读取失败");
+          } else {
+            res.render("index.html", {
+              students: students,
+            });
+          }
         });
+      });
+  ```
+
++ 模板字符串
+
+  ```html
+  
+      <div class="container">
+        <!-- 超链接 a 进行页面跳转 href=[/students/new]  实现第二个路由 -->
+        <p>
+          <a href="/students/new" class="btn btn-info">添加学生</a>
+        </p>
+  
+        <table class="table table-bordered">
+          <thead>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>爱好</th>
+          </thead>
+          <tbody>
+            {{each students}}
+            <tr>
+              <td>{{ $value.id }}</td>
+              <td>{{ $value.name }}</td>
+              <td>{{ $value.gender }}</td>
+              <td>{{ $value.age }}</td>
+              <td>{{ $value.hobbies }}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+  ```
+
+  
+
+#####  路由: `http://127.0.0.1:3031/students/new`用于学生信息添加
+
++ 渲染效果
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/addstudent.png">
+
++ 路由规则
+
+  ```javascript
+  // 添加按钮点击跳转: get: 127.0.0.1:3031/students/new 渲染添加学生页
+  router.get("/new", (req, res) => {
+    res.render("new.html");
+  });
+  
+  ```
+
++ 模板字符串
+
+  ```html
+  <div class="container">
+        <h2 class="sub-header">添加学生信息</h2>
+        <!-- 第三个路由参数处理： post: /students/new -->
+        <form action="/students/new" method="post">
+          <div class="form-group">
+            <label for="exampleInputEmail"> 姓名 </label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleInputEmail"
+              name="name"
+            />
+          </div>
+  
+          <div class="form-group">
+            <label for=""> 性别 </label>
+            <div>
+              <label class="radio-inline">
+                <input type="radio" name="gender" id="inlineRadio1" value="0" />男
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" id="inlineRadio2" value="1" />女
+              </label>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="age">年龄</label>
+            <input class="form-control" type="number" id="age" name="age" />
+          </div>
+          <div class="checkout">
+            <label> 爱好 </label>
+            <input class="form-control" type="text" name="hobbies" />
+          </div>
+          <div class="btn">
+            <button type="submit" class="btn btn-info"> 添加学员信息 </button>
+          </div>
+        </form>
+      </div>
+  ```
+
++ 异步函数`save`封装
+
+  ```javascript
+  
+  exports.save = (student, callback) => {
+    fs.readFile(dbpath, "utf8", (err, data) => {
+      if (err) {
+        return callback(err);
+      } else {
+        let students = JSON.parse(data).students;
+        // 处理 id: 获取数组的最后一个 再加 1
+        student.id = students[students.length - 1].id + 1;
+        // 添加数据
+        students.push(student);
+        // 把对象数据转换为字符串
+        let result = JSON.stringify({ students: students });
+        // 把字符串保存到文件中
+        fs.writeFile(dbpath, result, (err) => {
+          if (err) {
+            // 错误 就返回错误对象
+            return callback(err);
+          } else {
+            // 成功就不报错 返回空对象
+            callback(null);
+          }
+        });
+      }
+    });
+  };
+  
+  ```
+
+
+
+#####  路由:`post: 127.0.0.1；3031/students/new`
+
++ 路由规则
+
+  ```javascript
+  // 处理添加学生请求 post: 127.0.0.1:3031/students/new
+  router.post("/new", (req, res) => {
+    // 1. 获取表单数据 post: body-parser
+    let formdata = req.body;
+    // 2, 处理  将数据保存到 db.json 文件中
+    // 预处理: 由于文件都是字符串非对象 所以只能先行读取 在追加 追加结束后再对文件进行写入操作
+    // 具体操作: 1. 先读取出来 转成对象 2. 然后往对象中 push 数据 3. 然后把对象转换为 字符串 然后把字符串再次写入文件
+    // 3. 发送响应 res.body
+    Student.save(formdata, (err) => {
+      if (err) {
+        return res.status(500).send("{'error': 'not found'}");
+      } else {
+        res.redirect("/students");
       }
     });
   });
   
-   <tbody>
-            {{ each students }}
-            <tr>
-              <td>$value.id</td>
-              <td>$value.name</td>
-              <td>$value.gender</td>
-              <td>$value.age</td>
-              <td>$value.hobbies</td>
-            </tr>
-            {{ /each }}
-    </tbody>
-  
   ```
 
-+ `json`数据
++ 效果预览
 
-  ```json
-  {
-    "students": [
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
-      { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" }
-    ]
-  }
-  
-  ```
+  ![Node](https://img-blog.csdnimg.cn/20210303154910327.gif#pic_center)
 
-  
+
+
+#####   `json`数据
+
+```json
+{
+  "students": [
+    { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 2, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 3, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 4, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 5, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 6, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 7, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" }
+  ]
+}
+
+```
+
