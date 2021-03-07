@@ -327,7 +327,7 @@ cover:
 
   ```bash
   # 下载 
-  npm install nodemon -g
+  npm install nodemon --global
   
   #检测安装
   nodemon -v
@@ -1085,8 +1085,9 @@ cover:
 
 + 解决`Node.js`回调地狱问题
 
-  ```javascript
+  {% folding Node回调地狱问题 %}
   
+  ```javascript
   // promise 的基础使用 解决Node.js 的回调地狱
   
   function p1() {
@@ -1142,6 +1143,8 @@ cover:
       console.log(r3);
     });
   ```
+  
+  {% endfolding %}
 
 ####  异步函数
 
@@ -1809,3 +1812,913 @@ app.get("/index/:id", (req, res) => {
    ```
 
    
+
+###  Node 深入补充
+
+
+
+####  系统模块
+
+
+
+##### 读取目录树
+
++ `R`
+
+  {% folding  文件读取 %}
+  
+  ```javascript
+  // 同步读取文件
+  let dirs = fs.readdirSync("./");
+  console.log(dirs); // 需要捕获异常
+  
+  -------------------------- 改进 ------------------------------------
+  
+  //捕获同步执行异常 
+  try {
+    // 可能出现错误的代码
+    let dirtree = fs.readdirSync("./");
+    console.log(dirtree);
+  } catch (err) {
+    // 错误后执行的代码
+    console.log("执行出错,请仔细阅读错误信息: ", err);
+  }
+  ------------------------------------------------------------------
+  
+  // 异步读取
+  fs.readdir("./", (err, data) => {
+    // 错误的回调函数优先,在回调函数中第一个参数表示错误对象 默认为 null 如果出现错误 err 就是错误对象
+    if (err) {
+      console.log("请重新尝试: ", err);
+    } else {
+      console.log(data);
+    }
+});
+  ```
+  
+  {% endfolding %}
+  
+  
+
+#####  创建目录
+
++ `C`
+
+  ```javascript
+  // 创建文件夹
+  fs.mkdir("../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件夹创建成功");
+    }
+  });
+  ```
+
+
+
+#####  更改
+
++ `U`
+
+  ```javascript
+  // 更改文件夹
+  fs.rename("../qf-Node-day03", "../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("重命名成功");
+    }
+  });
+  
+  ```
+
+
+
+#####  删除
+
++ `D`
+
+  ```javascript
+  // 删除文件夹 只能删除空文件夹
+  fs.rmdir("../qf-Node-day02", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件夹删除成功");
+    }
+  });
+  
+  ```
+
+
+
+#####  文件读写删除
+
++ 读写
+
+  ```javascript
+  // 文件写入
+  fs.writeFile("./writeJs.js", "// Node JS written successfully", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      fs.readFile("./writeJs.js", (err, data) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(data.toString('utf8'));
+        }
+      });
+    }
+  });
+  ```
+
++ 删除文件
+
+  ```javascript
+  fs.unlink("./writeJs.js", (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("文件已删除");
+    }
+  });
+  
+  ```
+
+
+
+#####  URL
+
++ `url`
+
+  ```bash
+  统一资源定位符
+  ```
+
++ 图解
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/url.png">
+
++ `url.parse`
+
+  {% folding url.parse %}
+
+  ```javascript
+  
+  const url = require('url');
+  let urlpath = 'https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver';
+  let urlparse = url.parse(urlpath);
+  
+  console.log(urlparse);
+  /*
+  Url {
+    protocol: 'https:',
+    slashes: true,
+    auth: null,
+    host: 'www.bilibili.com',    
+    port: null,
+    hostname: 'www.bilibili.com',
+    hash: null,
+    search: '?p=7&spm_id_from=pageDriver',
+    query: 'p=7&spm_id_from=pageDriver',
+    pathname: '/video/BV13E411y7G4',
+    path: '/video/BV13E411y7G4?p=7&spm_id_from=pageDriver',
+    href: 'https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver'
+  }
+  */
+  ```
+
+  {% endfolding %}
+
+  + 将对象转换为字符串
+
+    ```javascript
+    // 将对象转换为字符串
+    let strurl = url.format(urlparse);
+    console.log(strurl); //  https://www.bilibili.com/video/BV13E411y7G4?p=7&spm_id_from=pageDriver
+    
+    ```
+
+  + 获取`url`参数
+
+    ```javascript
+    // 获取对象参数的值
+    let params = url.parse(urlpath, true).query;
+    console.log(params);
+    
+    ```
+
++ `quertstring`
+
+  ```javascript
+  
+  const qs = require("querystring");
+  
+  // 基本使用
+  let str = "p=7&spm_id_from=pageDriver";
+  console.log(qs.parse(str)); // [Object: null prototype] { p: '7', spm_id_from: 'pageDriver' }
+  
+  -------------------------------------------------------------------------------------------------
+  
+      // 添加参数
+  let newStr = "p*7#spm_id_from*pageDriver";
+  // * # 为 query 的显示方式,而使用该方式进行解析
+  let obj = qs.parse(newStr, "#", "*");
+  console.log(obj); // [Object: null prototype] { p: '7', spm_id_from: 'pageDriver' }
+  
+  ```
+
++ `stringfy`
+
+  ```javascript
+  // stringfy
+  let jsonS = { p: "7", spm_id_from: "pageDriver" };
+  var jsonStr = qs.stringify(jsonS);
+  console.log(jsonStr); // p=7&spm_id_from=pageDriver
+  ```
+
+  
+
++ `nodemailer`
+
+  {% hideBlock 请勿尝-了解知识 %}
+
+  ```javascript
+  // npm install nodemailer
+  "use strict";
+  const nodemailer = require("nodemailer");
+  
+  // 创建发送邮件对象
+  let transporter = nodemailer.createTransport({
+    host: "smtp.qq.com", // 发送方邮箱类型: QQ 网易 ···
+    port: 465,
+    secure: true, //  true for 465, false for other ports
+    auth: {
+      user: 'xxx@qq.com', // 发送方邮箱地址
+      pass: '', // smtp 验证码
+    },
+  });
+  
+  // 邮件信息
+  let mailobj = {
+    from: "<xxx@qq.com>", // 邮件发送地址
+    to: "xxx@qq.com",
+    subject: "Node 发送邮箱测试", // 标题
+    text: "发送成功 Node Message", // text 和 html 选其一作为发送文本
+    html: "<h1> 发送成功 Node Message </h1>",
+  };
+  
+  // 发送邮件
+  transporter.sendMail(mailobj,(err,data)=>{
+      if(err){
+          console.log(err);
+      }else{
+          console.log(date);
+      }
+  });
+  ```
+
+  {% endhideBlock %}
+
+
+
+####  Express 路由
+
++ 路由下载
+
+  ```bash
+  npm install router
+  ```
+
+  
+
++ 拆解路由
+
+  {% folding 路由 %}
+  
+  ```javascript
+  
+  router: /userRouter
+  		userRouter:
+  			const express = require("express");
+  			const router = express.Router();
+  			// user api 
+   			router.get('/login',(req,res)=>{
+                  res.send({
+                      code: 1,
+                      ps: 'login ok'
+                  });
+              });
+   		module.exports = router;
+  
+  
+  -------------------------------------------------------------------------    
+      
+  app.js:
+  	const express = require("express");
+  	const app = express();
+  	// 引入拆分路由
+  	const userRouter = require('./router/userRouter');
+  	// 使用路由
+  	app.use('/user',userRouter);
+  	
+  解析:
+  	app.use('/user',userRouter);
+  
+  	http:127.0.0.1:3031/user/【截取: 进入 userRouter 中寻找请求路由地址 eg: /login ]
+  
+  	所以最终请求地址为: 	http:127.0.0.1:3031/user/login
+  ```
+  
+  {% endfolding %}
+
+
+
+
+####  模板引擎
+
+##### 模板引擎下载
+
+```bash
+npm install art-template --save 
+```
+
+#####  使用模板引擎
+
+```javascript
+const template = require("art-template");
+const fs = require("fs");
+// 读取 art.html 字符串模板
+fs.readFile("./public/art.html", (err, data) => {
+  if (err) {
+    return console.log("读取失败");
+  } else {
+    // 渲染模板引擎
+    let templateRes = template.render(data.toString(),{
+        name: "李四"
+    });
+    console.log(templateRes);
+  }
+});
+
+```
+
+
+
+
+
+#### 包说明文件
+
++ `package.json`
+
+  ```bash
+  npm init -y
+  
+  npm install package-name --save
+  --save: 可以将包添加到 package.json 中的 dependencies 选项中
+  注意: 建议每个项目都有 package.json 文件
+  
+  ```
+
+  
+
+####  NPM
+
++ `npm`官网
+
+  <a href="https://www.npmjs.com/">点击前往 npm 官网 </a>
+
++ `npm`命令行管理工具
+
+  ```bash
+  npm install package-name --save
+  ```
+
++ `npm`升级
+
+  ```bash
+  npm install --global npm
+  ```
+
+  
+
+####  Express
+
+#####  下载
+
+```bash
+npm install express
+```
+
+#####  使用 
+
+```javascript
+const express = require('express');
+const app = express();
+app.listen('端口号','回调函数');
+```
+
+#####   静态资源文件路径开放问题
+
++ `express`中静态资源路径处理
+
+  ```javascript
+  // 开放静态资源路径 访问方式: 127.0.0.1:3031/public/file-name
+  app.use("/public", express.static("./public/"));
+  
+  // 当省略第一个参数的时候可以省略 /public 的方式访问 访问方式: 127.0.0.1:3031/file-name
+  app.use(express.static("./public/")); 
+  
+  // 疑惑: path.join() 暂时理解有误 拼接使用错误
+  let filepath = path.join(__dirname,"public")
+  
+  
+  ```
+
+  <img src="https://img-blog.csdnimg.cn/20210228132814369.gif" title="express-开放静态资源路径" width="700">
+
+
+
+####  GET请求参数处理案例
+
++ `app.js`
+
+  {% folding app.js %}
+
+  ```javascript
+  const fs = require("fs");
+  const url = require("url");
+  const template = require("art-template");
+  // 创建 express 服务器
+  const express = require("express");
+  const app = express();
+  
+  // 开放静态资源路径 访问方式: 127.0.0.1:3031/public/file-name
+  // app.use("/public", express.static("./public/"));
+  
+  // 当省略第一个参数的时候 可以省略 /public 的方式访问
+  app.use(express.static("./public/")); // 127.0.0.1:3031/file-name
+  
+  
+  // index router
+  app.get("/index", (req, res) => {
+    // 读取文件
+    fs.readFile("public/index.html", (err, data) => {
+      if (err) {
+        console.log(err);
+      } else {
+        let resoult = template.render(data.toString());
+        res.send(resoult);
+      }
+    });
+  });
+  
+  /* ************************************* */
+  let comments = [];
+  /* ************************************* */
+  
+  app.get("/pinglun", (req, res) => {
+    // 读取 pinglun.html
+    fs.readFile("public/pinglun.html", (err, data) => {
+      if (err) {
+        console.log("文件读取失败");
+      } else {
+        // 解析 get 参数数据
+        let parserObj = url.parse(req.url, true);
+        let pathname = parserObj.pathname; //  /pinglun
+        console.log(pathname);
+        let comment = parserObj.query; // ? 后面的数据 { username: 'asd', message: 'dsadad' }
+        // 追加到数组中 服务器端这个时候已经把数据存储好了 接下来就是让用户重新请求 / 首页
+        comments.unshift(comment);
+  
+        // 重定向问题
+        // 如何通过服务器让客户端重定向
+        // 1. 状态码设置为 302 临时重定向
+        // statusCode
+        // 2. 在响应头中通过 Location 告诉客户端往哪儿重定向
+        // setHeader
+        // res.statusCode = 302;
+        // res.setHeader("Location", "/");
+        // res.send();
+        // 模板字符串
+        for (let i = 0; i < comments.length; i++) {
+          let templateP = template.render(data.toString(), {
+            username: comments[i]["username"],
+            message: comments[i]["message"],
+          });
+          res.send(templateP);
+        }
+      }
+    });
+  });
+  
+  // 监听端口号
+  app.listen(3031, () => {
+    console.log("服务器启动成功··········");
+  });
+  
+  // 缺点: 未能对 get 表单参数进行截取 只能读取一条数据
+  
+  ```
+
+  {% endfolding %}
+
++ 实现效果
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/NodeGetData.gif" width="800" title="GET 表单数据处理">
+
++ 完善`BUG`
+
+  ```javascript
+  问题原因: 在模板字符串渲染参数给中对第二个参数传递时理解有误
+  
+  解决方案；
+       let templateP = template.render(data.toString(), {
+           // comments --> 参数名称 comments--> 数组 而这个数组包含对象 [{},···]
+           comments: comments,
+            });
+            res.send(templateP);
+  
+  // 模板字符串
+   {{each comments}}
+            <tr>
+              <td>2021-02-28</td>
+              <td>{{$value.username}}</td>
+              <td>{{$value.message}}</td>
+            </tr>
+   {{/each}}
+              
+  // 缺陷: 未添加重定向
+  ```
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/fixBug.gif" title="修复第一次由于参数传递错误引起的bug" width="800"> 
+
+
+
++ 个人案例源码参考
+
+  <a href="https://github.com/lovobin/Bin-HTML5/tree/main/Node/node-day10">  点击前往 查看 
+
+
+
+####  模板引擎
+
+#####  下载模板引擎
+
+```bash
+// 一次性下载多个包
+npm i art-template express-art-template -S
+
+// 单独下载
+npm install art-template --save
+npm install express-art-template --save
+
+```
+
+#####  配置`art-template`
+
+```javascript
+// 配置使用 art-template art-->: 可以修改为支持语法高亮的后缀文件 比如: html 
+app.engine('art',require('express-art-template'))
+
+第一个参数: 表示 当渲染以 .art 结尾的文件的时候,使用 art-template 模板引擎
+
+express-art-template 是专门用来在 Express 中把 art-template 整合到 Express 中
+
+必须下载 art-template 原因就在于 express-art-template 依赖了 art-template 
+
+```
+
+#####  使用`art-template`
+
+```javascript
+Express 为 Response 响应对象提供了一个方法: render
+
+render 方法默认是不可以使用的,但是如果配置了模板引擎就可以使用了
+
+// html 模板名必须和上面一致的后缀 统一放在 views 目录中 ,views 中有目录就需要根据目录依次书写文件路径 默认 views/
+res.render('html模板名',{模板数据});
+
+第一个参数不能写路径,默认会去项目中的 views 目录中查找该模板文件
+
+注意: 在Express中: 开发人员把所有的试图文件都放到 views 目录中
+
+```
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/expressarttemplate.png" width="800">
+
+#####  配置`views`目录
+
+```javascript
+app.set('views',render函数的默认路径); // 第一个参数必须是 views 
+```
+
+
+
+####  POST 表单数据处理
+
++ `app.js`
+
+  {% folding app.js %}
+
+  ```javascript
+  // 引入 express 框架
+  const express = require("express");
+  // 创建服务
+  const app = express();
+  
+  // 配置解析 post 表单的中间件
+  const bodyparser = require("body-parser");
+  app.use(bodyparser.urlencoded({ extended: false }));
+  
+  // 路由
+  let userRouter = require("./router/userRouter");
+  app.use("/user", userRouter); // 127.0.0.1:3031/user/login  通过 user 再进入 userRouter 下寻找对应路由
+  
+  // 开放静态资源 添加public 的化显示更加直观
+  app.use("/public/", express.static("./public/"));
+  // 省略 public 则对 url 显示更加简介简洁
+  
+  // 使用 express-art-template 模板引擎 app.engine('以什么后缀的文件',)
+  app.engine("html", require("express-art-template"));
+  
+  // 监听端口号
+  app.listen(3031, () => {
+    console.log("Express 服务器启动成功");
+  });
+  ```
+
+  {% endfolding %}
+
++ 路由
+
+  ```javascript
+  const express = require("express");
+  const router = express.Router();
+  
+  let comments = [];
+  
+  router.get("/index", (req, res) => {
+    res.render("index.html");
+  });
+  
+  router.post("/pinglun", (req, res) => {
+    // 通过 req.body 获取post 表单请求数据
+    let comment = req.body;
+    comments.unshift(comment);
+    res.render("pinglun.html", { comments: comments });
+  });
+  module.exports = router;
+  
+  ```
+
++ 字符串转换为对象
+
+  ```javascript
+  // 文件中读取的数据一定是字符串
+  // 需要手动转换为 对象
+  JSON.parse(data).对象名
+  ```
+
+  
+
+####  设计路由
+
+| 请求方法 |      请求路径      | get参数 |            post 参数             |       备注       |
+| :------: | :----------------: | :-----: | :------------------------------: | :--------------: |
+|  `GET`   |    `/students`     |         |                                  |     渲染首页     |
+|  `GET`   |  `/students/new`   |         |                                  |  渲染添加学生页  |
+|  `POST`  |  `/students/new`   |         |   `name，age，gender，hobbies`   | 处理添加学生请求 |
+|  `GET`   |  `/students/edit`  |  `id`   |                                  |   渲染编辑页面   |
+|  `POST`  |  `/students/edit`  |         | `id，name，age，gender，hobbies` |   处理编辑请求   |
+|  `GET`   | `/students/delete` |  `id`   |                                  |   处理删除请求   |
+
+#####  路由:` 127.0.0.1:3031/students`
+
+<img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/routerStudents.png" width="600">
+
++ 路由规则
+
+  {% folding 路由规则 %}
+
+  ```javascript
+  // 二级路由
+  
+  -------------------- 封装独立模块 stident --------------------
+  
+  exports.find = (callback) => {
+    // 如果要获取一个函数中异步操作的结果 则必须通过回调函数来获取
+    fs.readFile(dbpath,'utf8', (err, data) => {
+      if (err) {
+        return callback(err);
+      } else {
+        console.log(typeof JSON.parse(data).students);
+        // callback 中的参数: 第一个是: 错误对象 第二个是: 数据
+        callback(null, JSON.parse(data).students);
+      }
+    });
+  };
+  
+  
+  -------------------------------------------
+      
+  studentsRouter:
+  		
+      // 渲染首页
+      router.get("/", (req, res) => {
+        // 使用封装函数 find()
+        Student.find((err, students) => {
+          if (err) {
+            return res.status(500).send("文件读取失败");
+          } else {
+            res.render("index.html", {
+              students: students,
+            });
+          }
+        });
+      });
+  ```
+
+  {% endfolding %}
+
++ 模板字符串
+
+  {% folding 模板字符串 %}
+  
+  ```javascript
+   <div class="container">
+        <!-- 超链接 a 进行页面跳转 href=[/students/new]  实现第二个路由 -->
+        <p>
+          <a href="/students/new" class="btn btn-info">添加学生</a>
+        </p>
+  
+        <table class="table table-bordered">
+          <thead>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>爱好</th>
+          </thead>
+          <tbody>
+            {{each students}}
+            <tr>
+              <td>{{ $value.id }}</td>
+              <td>{{ $value.name }}</td>
+              <td>{{ $value.gender }}</td>
+              <td>{{ $value.age }}</td>
+              <td>{{ $value.hobbies }}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+```
+  
+  {% endfolding %}
+  
+  
+
+#####  路由: `http://127.0.0.1:3031/students/new`用于学生信息添加
+
++ 渲染效果
+
+  <img src="https://gitee.com/wang_hong_bin/repo-bin/raw/master/addstudent.png">
+
++ 路由规则
+
+  ```javascript
+  // 添加按钮点击跳转: get: 127.0.0.1:3031/students/new 渲染添加学生页
+  router.get("/new", (req, res) => {
+    res.render("new.html");
+  });
+  
+  ```
+
++ 模板字符串
+
+  ```html
+  <div class="container">
+        <h2 class="sub-header">添加学生信息</h2>
+        <!-- 第三个路由参数处理： post: /students/new -->
+        <form action="/students/new" method="post">
+          <div class="form-group">
+            <label for="exampleInputEmail"> 姓名 </label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleInputEmail"
+              name="name"
+            />
+          </div>
+  
+          <div class="form-group">
+            <label for=""> 性别 </label>
+            <div>
+              <label class="radio-inline">
+                <input type="radio" name="gender" id="inlineRadio1" value="0" />男
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="gender" id="inlineRadio2" value="1" />女
+              </label>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="age">年龄</label>
+            <input class="form-control" type="number" id="age" name="age" />
+          </div>
+          <div class="checkout">
+            <label> 爱好 </label>
+            <input class="form-control" type="text" name="hobbies" />
+          </div>
+          <div class="btn">
+            <button type="submit" class="btn btn-info"> 添加学员信息 </button>
+          </div>
+        </form>
+      </div>
+  ```
+
++ 异步函数`save`封装
+
+  ```javascript
+  
+  exports.save = (student, callback) => {
+    fs.readFile(dbpath, "utf8", (err, data) => {
+      if (err) {
+        return callback(err);
+      } else {
+        let students = JSON.parse(data).students;
+        // 处理 id: 获取数组的最后一个 再加 1
+        student.id = students[students.length - 1].id + 1;
+        // 添加数据
+        students.push(student);
+        // 把对象数据转换为字符串
+        let result = JSON.stringify({ students: students });
+        // 把字符串保存到文件中
+        fs.writeFile(dbpath, result, (err) => {
+          if (err) {
+            // 错误 就返回错误对象
+            return callback(err);
+          } else {
+            // 成功就不报错 返回空对象
+            callback(null);
+          }
+        });
+      }
+    });
+  };
+  
+  ```
+
+
+
+#####  路由:`post: 127.0.0.1；3031/students/new`
+
++ 路由规则
+
+  ```javascript
+  // 处理添加学生请求 post: 127.0.0.1:3031/students/new
+  router.post("/new", (req, res) => {
+    // 1. 获取表单数据 post: body-parser
+    let formdata = req.body;
+    // 2, 处理  将数据保存到 db.json 文件中
+    // 预处理: 由于文件都是字符串非对象 所以只能先行读取 在追加 追加结束后再对文件进行写入操作
+    // 具体操作: 1. 先读取出来 转成对象 2. 然后往对象中 push 数据 3. 然后把对象转换为 字符串 然后把字符串再次写入文件
+    // 3. 发送响应 res.body
+    Student.save(formdata, (err) => {
+      if (err) {
+        return res.status(500).send("{'error': 'not found'}");
+      } else {
+        res.redirect("/students");
+      }
+    });
+  });
+  
+  ```
+
++ 效果预览
+
+  ![Node](https://img-blog.csdnimg.cn/20210303154910327.gif#pic_center)
+
+
+
+#####   `json`数据
+
+```json
+{
+  "students": [
+    { "id": 1, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 2, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 3, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 4, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 5, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 6, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" },
+    { "id": 7, "name": "张三", "gender": 0, "age": 10, "hobbies": "打游戏" }
+  ]
+}
+
+```
+

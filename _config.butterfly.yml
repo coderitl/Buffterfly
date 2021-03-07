@@ -911,7 +911,7 @@ inject:
     #数据集合标签issues的依赖
     - <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
     #  /gitcalendar/js/gitcalendar.js
-    #- <script data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.12/js/gitcalendar.js"></script>
+    - <script data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.12/js/gitcalendar.js"></script>
     - <script data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.13/swiper/swiper.min.js"></script>
     - <script data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.13/swiper/swiperindex.js"></script>
     - <script data-pjax src="https://cdn.jsdelivr.net/gh/lovobin/FileJsDeliver@v1.1.15/js/gitcalendar.js"></script>
