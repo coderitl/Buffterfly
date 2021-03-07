@@ -1085,8 +1085,9 @@ cover:
 
 + 解决`Node.js`回调地狱问题
 
-  ```javascript
+  {% folding Node回调地狱问题 %}
   
+  ```javascript
   // promise 的基础使用 解决Node.js 的回调地狱
   
   function p1() {
@@ -1142,6 +1143,8 @@ cover:
       console.log(r3);
     });
   ```
+  
+  {% endfolding %}
 
 ####  异步函数
 
@@ -1822,6 +1825,8 @@ app.get("/index/:id", (req, res) => {
 
 + `R`
 
+  {% folding  文件读取 %}
+  
   ```javascript
   // 同步读取文件
   let dirs = fs.readdirSync("./");
@@ -1848,9 +1853,11 @@ app.get("/index/:id", (req, res) => {
     } else {
       console.log(data);
     }
-  });
+});
   ```
-
+  
+  {% endfolding %}
+  
   
 
 #####  创建目录
@@ -1956,6 +1963,8 @@ app.get("/index/:id", (req, res) => {
 
 + `url.parse`
 
+  {% folding url.parse %}
+
   ```javascript
   
   const url = require('url');
@@ -1980,6 +1989,8 @@ app.get("/index/:id", (req, res) => {
   }
   */
   ```
+
+  {% endfolding %}
 
   + 将对象转换为字符串
 
@@ -2085,6 +2096,8 @@ app.get("/index/:id", (req, res) => {
 
 + 拆解路由
 
+  {% folding 路由 %}
+  
   ```javascript
   
   router: /userRouter
@@ -2117,8 +2130,9 @@ app.get("/index/:id", (req, res) => {
   	http:127.0.0.1:3031/user/【截取: 进入 userRouter 中寻找请求路由地址 eg: /login ]
   
   	所以最终请求地址为: 	http:127.0.0.1:3031/user/login
-  
   ```
+  
+  {% endfolding %}
 
 
 
@@ -2231,6 +2245,8 @@ app.listen('端口号','回调函数');
 
 + `app.js`
 
+  {% folding app.js %}
+
   ```javascript
   const fs = require("fs");
   const url = require("url");
@@ -2306,6 +2322,8 @@ app.listen('端口号','回调函数');
   // 缺点: 未能对 get 表单参数进行截取 只能读取一条数据
   
   ```
+
+  {% endfolding %}
 
 + 实现效果
 
@@ -2403,6 +2421,8 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
 
 + `app.js`
 
+  {% folding app.js %}
+
   ```javascript
   // 引入 express 框架
   const express = require("express");
@@ -2429,6 +2449,8 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
     console.log("Express 服务器启动成功");
   });
   ```
+
+  {% endfolding %}
 
 + 路由
 
@@ -2479,6 +2501,8 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
 
 + 路由规则
 
+  {% folding 路由规则 %}
+
   ```javascript
   // 二级路由
   
@@ -2517,11 +2541,14 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
       });
   ```
 
+  {% endfolding %}
+
 + 模板字符串
 
-  ```html
+  {% folding 模板字符串 %}
   
-      <div class="container">
+  ```javascript
+   <div class="container">
         <!-- 超链接 a 进行页面跳转 href=[/students/new]  实现第二个路由 -->
         <p>
           <a href="/students/new" class="btn btn-info">添加学生</a>
@@ -2548,8 +2575,10 @@ app.set('views',render函数的默认路径); // 第一个参数必须是 views
           </tbody>
         </table>
       </div>
-  ```
-
+```
+  
+  {% endfolding %}
+  
   
 
 #####  路由: `http://127.0.0.1:3031/students/new`用于学生信息添加
