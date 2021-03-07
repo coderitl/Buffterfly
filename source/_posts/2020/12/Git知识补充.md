@@ -17,7 +17,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/thismerge.png
 
    {% folding  blue,git-commit %}
 
-   <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/gitCommitS.png" title="git  commit -m'提交日志 ' ">
+   <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/gitCommitS.png" title="git  commit -m'提交日志 ' " width="600">
 
    {%  endfolding %}
 
@@ -108,7 +108,7 @@ cover: https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/thismerge.png
 
    {% endtabs %}
 
-###  4. `git rebase`
+###   `git rebase`
 
 {% tip cogs%}
 
@@ -162,7 +162,7 @@ Rebase 的优势就是可以创造更线性的提交历史，这听上去有些�
 
 {% endtabs %}
 
-###  5. 分离 `HEAD`
+###   分离 `HEAD`
 
 {% tabs 分离HEAD %}
 
@@ -214,13 +214,13 @@ git checkout c4
 
 {% endtabs %}
 
-###  6.   `git status`
+###    `git status`
 
 ```bash
 查看状态
 ```
 
-###  7.  添加文件
+###  添加文件
 
 ```bash
 git add 文件名 # 提交指定文件
@@ -228,7 +228,7 @@ git add 文件名 # 提交指定文件
 git add . # 英文小点 对所有文件添加
 ```
 
-###  8. 添加提交日志信息
+###  添加提交日志信息
 
 ```bash
 git commit -m "日志信息"
@@ -266,19 +266,19 @@ git commit -m "日志信息"
 
     <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103151300.png">
 
-###  9.  远程仓库的拉取
+###  远程仓库的拉取
 
 ```bash
 git pull origin 分支名 # origin是对提交地址添加的别名,后续指出
 ```
 
-###  10. 提交至远程仓库
+###  提交至远程仓库
 
 ```bash
 git push origin 分支名
 ```
 
-###  11. 删除不需要的文件
+###  删除不需要的文件
 
 ```bash
 1. 手动删除
@@ -288,7 +288,7 @@ git push origin 分支名
 
 {% hideBlock  基础命令准备预备文件 %}
 
-<img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/createFils.png">
+<img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/createFils.png" width="600">
 
 {% endhideBlock %}
 
@@ -350,7 +350,7 @@ git status
 
 {% endtabs %}
 
-###  12. 文件中重命名
+###  文件中重命名
 
 {% tabs id-rename %}
 
@@ -390,13 +390,13 @@ git status
 
 {% endtabs %}
 
-###  13. 移动文件并对文件重命名
+###  移动文件并对文件重命名
 
 ```bash
 git mv 目标文件 路径/新名称
 ```
 
-###  14. 查看文件的前后变化
+###  查看文件的前后变化
 
 ```bash
 git log --pretty=oneline path/文件名
@@ -414,7 +414,7 @@ git log --pretty=oneline path/文件名
 	git log -p path/file
 ```
 
-###  15.  操作失误如何一键还原
+###  操作失误如何一键还原
 
 ```bash
 + (未加入暂存区,未执行 git add .)可以还原回到上一次提交的状态
@@ -422,7 +422,7 @@ git log --pretty=oneline path/文件名
 git checkout -- path/fileName
 ```
 
-###  16. 不在追踪时如何实现撤销追踪操作
+###  不在追踪时如何实现撤销追踪操作
 
 ```bah
 执行了 git add . 后进行状态还原
@@ -430,7 +430,7 @@ git checkout -- path/fileName
 git reset HEAD path/fileName
 ```
 
-###  17. 回到指定版本
+###   回到指定版本
 
 ```bash
 后续补充命令: git cat-file -t commit-ID 
@@ -462,7 +462,7 @@ git reset HEAD path/fileName
 
 <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/commitID.png" title="commit id 每提交一次都会产生一个 commit-id">
 
-###  18.  指定文件进行版本回退
+###  指定文件进行版本回退
 
 ```bash
 # 拿取回退版本的 commit-ID
@@ -471,7 +471,7 @@ git log
 git checkout commit-id -- 指定文件 
 ```
 
-###  19. 实战之`git 本地`推送至`github`远程
+###  实战之`git 本地`推送至`github`远程
 
 1. 第一次提交
 
@@ -540,7 +540,7 @@ git checkout commit-id -- 指定文件
    git clone 地址(上述提到的链接)
    ```
 
-###  20.  版本进行标签化管理
+###  版本进行标签化管理
 
 1. 最新内容添加
 
@@ -573,7 +573,7 @@ git checkout commit-id -- 指定文件
    git push origin tag-name
    ```
 
-###  21.   分支及分支的操作(增，删)
+###  分支及分支的操作(增，删)
 
 1. 创建分支
 
@@ -627,7 +627,7 @@ git checkout commit-id -- 指定文件
    git checkout -b new-branch-name
    ```
 
-###  22. 分支合并
+###  分支合并
 
 ```bash
 # 切换到 main 分支，将 dev 分支合并到 main
@@ -637,13 +637,13 @@ git merge merge-branch-name
 
 + 注意查看右侧图像变动
 
-  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/newbranch.gif" title="注意图像变动">
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/newbranch.gif" title="注意图像变动" width="600">
 
 + `merge `产生冲突
 
-  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/mergeers.png" title="merge Error">
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/mergeers.png" title="merge Error" width="600">
 
-  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/mergeErro.png" title="实现 merge error">
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/mergeErro.png" title="实现 merge error" width="600">
 
 + 解决方案
   + 方法一
@@ -695,7 +695,7 @@ git merge merge-branch-name
 
     <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/graph.png">
 
-###  24. 删除不想要的分支(远程分支)
+###  删除不想要的分支(远程分支)
 
 ```bash
 # 拉取所有远程库(拉取所有分支)
@@ -704,7 +704,7 @@ git fetch
 git push origin --delete branch-name
 ```
 
-###  25. 模拟多人修改同一文件（实战后有待优化···）
+###  模拟多人修改同一文件（实战后有待优化···）
 
 #####  实现`github`同一台电脑配置两个邮箱和用户名
 
@@ -728,7 +728,7 @@ git branch -av
 git checkout -b branch-name remots/远端别名/branch-name
 ```
 
-###  26. 纳入了版本管理中: (`.gitignore`文件不生效)
+###  纳入了版本管理中: (`.gitignore`文件不生效)
 
 ####  需求: 忽略某些文件
 
@@ -743,7 +743,7 @@ git checkout -b branch-name remots/远端别名/branch-name
   git commit -m 'update .gitignore'
   ```
 
-###  27. 分离头指针
+###  分离头指针
 
 ```bash
 不建议的操作
@@ -760,9 +760,9 @@ git checkout -b branch-name remots/远端别名/branch-name
   分离头指针内容如果无用会被清理
   ```
 
-  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103143654.png">
+  <img src="https://gitee.com/wang_hong_bin/pic-go-photos/raw/master/20210103143654.png" width="600">
 
-###   28. 暂存区和HEAD  包含文件比较
+###   暂存区和HEAD  包含文件比较
 
 ```bash
 # 比较命令
@@ -770,7 +770,7 @@ git checkout -b branch-name remots/远端别名/branch-name
 git diff --cached 
 ```
 
-###  29.  工作区和暂存区进行差异比较
+###  工作区和暂存区进行差异比较
 
 ```bash
 git diff
@@ -779,7 +779,7 @@ git diff
 git diff -- file-name
 ```
 
-###   30.  分支与分支之间内容差异比较
+###   分支与分支之间内容差异比较
 
 ```bash
 # 所有内容比较
@@ -790,7 +790,7 @@ git diff  branch-name1 branch-name2  -- file-name(commit-id 比较等同)
 
 ```
 
-###  31.  开发中临时加塞紧急任务处理方案
+###  开发中临时加塞紧急任务处理方案
 
 ```bash
 + 将当前任务放在一个隔离环境
